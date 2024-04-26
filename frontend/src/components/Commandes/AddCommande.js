@@ -245,7 +245,7 @@ const AddCommande = () => {
                         <label>Famille:</label>
                         <input
                           type="text"
-                          className="form-control form-control-lg"
+                          className="form-control form-control-sm"
                           name="famille"
                           placeholder="Nom de Famille"
                           onChange={(e) => handleChangeFamille(e, index)}
@@ -258,7 +258,7 @@ const AddCommande = () => {
                         <label>Sous Famille:</label>
                         <input
                           type="text"
-                          className="form-control form-control-lg"
+                          className="form-control form-control-sm"
                           name="sous_famille"
                           placeholder="Nom de Sous Famille"
                           onChange={(e) => handleChangeFamille(e, index)}
@@ -271,7 +271,7 @@ const AddCommande = () => {
                         <label>Article:</label>
                         <input
                           type="text"
-                          className="form-control form-control-lg"
+                          className="form-control form-control-sm"
                           name="article"
                           placeholder="Nom de l'article"
                           onChange={(e) => handleChangeFamille(e, index)}
@@ -284,7 +284,7 @@ const AddCommande = () => {
                         <label>Quantité:</label>
                         <input
                           type="number"
-                          className="form-control form-control-lg"
+                          className="form-control form-control-sm"
                           name="quantite"
                           placeholder="Quantité"
                           onChange={(e) => handleChangeFamille(e, index)}
@@ -297,7 +297,7 @@ const AddCommande = () => {
                         <button
                           onClick={() => removeFamille(index)}
                           type="button"
-                          className="btn btn-danger btn-lg me-2"
+                          className="btn btn-danger btn-sm me-2"
                         >
                           <i className="bi bi-trash"></i> Supprimer
                         </button>
@@ -306,7 +306,7 @@ const AddCommande = () => {
                           <button
                             onClick={addFamille}
                             type="button"
-                            className="btn btn-success btn-lg"
+                            className="btn btn-success btn-sm"
                           >
                             <i className="bi bi-plus-circle"></i> Ajouter
                           </button>
