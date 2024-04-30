@@ -43,13 +43,10 @@ const ReglementsEmis = () => {
                         <th>Tiers Saisie</th>
                         <th>Montant Brut</th>
                         <th>
-                          N° de la Pièce <br></br> à Régler
+                            Base de la <br></br> retenue à la source
                         </th>
                         <th>
-                          Date de la Pièce <br></br> à Régler
-                        </th>
-                        <th>
-                          Montant de la Pièce <br></br> à Régler
+                            Montant Net
                         </th>
                         <th></th>
                       </tr>
@@ -65,13 +62,9 @@ const ReglementsEmis = () => {
                           <td>{reglement.code_tiers}</td>
                           <td>{reglement.tiers_saisie}</td>
                           <td>{reglement.montant_brut}</td>                          
-                          <td>{reglement.num_pieces_a_regler}</td>
-                          <td>
-                            {new Date(
-                              reglement.dates_pieces_a_regler
-                            ).toLocaleDateString()}
-                          </td>
-                          <td>{reglement.montants_pieces_a_regler}</td>
+                          <td>{reglement.taux_retenue_source}</td>
+                          
+                          <td>{reglement.montant_net}</td>
                           <td>
                             <Link to={`/detailsReglement/${reglement.id}`}>
                               <button type="button" className="btn btn-primary">

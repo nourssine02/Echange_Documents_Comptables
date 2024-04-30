@@ -76,7 +76,19 @@ const AddReglement = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setReglement({ ...reglement, [name]: value });
+
+    if (name === "code_tiers") {
+      const selectedCodeTier = codeTiers.find((codeTier) => codeTier.code_tiers === value);
+      if (selectedCodeTier) {
+        setReglement((prev) => ({
+          ...prev,
+          tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+        }));
+      }
+    } else {
+      setReglement({ ...reglement, [name]: value });
+
+    }  
   };
 
   const handleChangePayement = (e, index) => {
@@ -231,7 +243,6 @@ const AddReglement = () => {
                       className="form-control"
                       name="tiers_saisie"
                       onChange={handleChange}
-                      placeholder="Tiers à Saisir"
                       value={reglement.tiers_saisie}
                     />
                   </div>

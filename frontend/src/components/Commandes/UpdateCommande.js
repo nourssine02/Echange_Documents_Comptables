@@ -101,13 +101,6 @@ const UpdateCommande = () => {
     ]);
   };
 
-  // Fonction pour supprimer une famille
-  // const removeFamille = (index) => {
-  //   const updatedFamilles = [...familles];
-  //   updatedFamilles.splice(index, 1);
-  //   setFamilles(updatedFamilles);
-  // };
-
 
   const removeFamille = async (index, familleId) => {
     try {

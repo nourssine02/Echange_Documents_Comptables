@@ -72,17 +72,17 @@ const AddFacture = () => {
     fetchCodeTiers();
   }, []);
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+  
     if (name === "code_tiers") {
-      const selectedCodeTier = codeTiers.find(
-        (codeTier) => codeTier.code_tiers === value
-      );
+      const selectedCodeTier = codeTiers.find((codeTier) => codeTier.code_tiers === value);
       if (selectedCodeTier) {
         setFacture((prev) => ({
           ...prev,
-          tiers_saisie: selectedCodeTier.identite, // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+          tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
         }));
       }
     } else if (name === "document_fichier" && e.target.files.length > 0) {
@@ -97,7 +97,7 @@ const AddFacture = () => {
       setFacture((prev) => ({ ...prev, [name]: value }));
     }
   };
-
+  
   const handleChangeFamille = async (famille, index) => {
     const updatedFamilles = [...familles];
     updatedFamilles[index].famille = famille.value; // Mettez à jour la valeur de la famille sélectionnée
@@ -162,7 +162,6 @@ const AddFacture = () => {
     const fetchFamilles = async () => {
       try {
         const res = await axios.get("http://localhost:5000/familles");
-        //setFamilleList(res.data);
         const options = res.data.map((famille) => ({
           value: famille,
           label: famille,

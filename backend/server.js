@@ -52,7 +52,7 @@ const sendVerificationEmail = async (email, verificationCode) => {
   let info = await transporter.sendMail({
     from: {
       name: "Compta",
-      address: "vihoh74389@ebuthor.com",
+      address: "nourssinenef@gmail.com",
     },
     to: email,
     subject: "Verify Your Email Address",
@@ -490,46 +490,60 @@ app.delete("/achats/:id", (req, res) => {
 
 /************************ code_tiers **************************************** */
 
+
 app.get("/code_tiers", (req, res) => {
-  const q = "SELECT code_tiers FROM tiers";
-  db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
+  const query = "SELECT `identite`, code_tiers FROM tiers";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Erreur lors de l'exécution de la requête :", err);
+      res.status(500).json({ error: "Erreur serveur" });
+      return;
+    }
+
+    // Renvoyer les résultats de la requête
+    res.json(results);
   });
 });
-
 /****************************************************************** */
 /**********************reglements emis **************************/
 
 // Afficher tous les règlements émis
 app.get("/reglements_emis", (req, res) => {
-  const query = `
-      SELECT
-          reglements_emis.id AS id,
-          reglements_emis.date_saisie,
-          reglements_emis.code_tiers,
-          reglements_emis.tiers_saisie,
-          reglements_emis.montant_brut,
-          GROUP_CONCAT(pieces_a_regler.num_piece_a_regler) AS num_pieces_a_regler,
-          GROUP_CONCAT(pieces_a_regler.date_piece_a_regler) AS dates_pieces_a_regler,
-          GROUP_CONCAT(pieces_a_regler.montant_piece_a_regler) AS montants_pieces_a_regler
-      FROM reglements_emis
-      LEFT JOIN pieces_a_regler ON reglements_emis.id = pieces_a_regler.reglement_emis_id
-      GROUP BY reglements_emis.id
-  `;
-
-  db.query(query, (err, rows) => {
-    if (err) {
-      console.error("Erreur lors de la récupération des données:", err);
-      return res
-        .status(500)
-        .json({ message: "Erreur lors de la récupération des données." });
-    }
-
-    // Envoyer les données au client
-    res.json(rows);
+  const q = "SELECT * FROM  reglements_emis";
+  db.query(q, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
   });
 });
+// app.get("/reglements_emis", (req, res) => {
+//   const query = `
+//       SELECT
+//           reglements_emis.id AS id,
+//           reglements_emis.date_saisie,
+//           reglements_emis.code_tiers,
+//           reglements_emis.tiers_saisie,
+//           reglements_emis.montant_brut,
+//           GROUP_CONCAT(pieces_a_regler.num_piece_a_regler) AS num_pieces_a_regler,
+//           GROUP_CONCAT(pieces_a_regler.date_piece_a_regler) AS dates_pieces_a_regler,
+//           GROUP_CONCAT(pieces_a_regler.montant_piece_a_regler) AS montants_pieces_a_regler
+//       FROM reglements_emis
+//       LEFT JOIN pieces_a_regler ON reglements_emis.id = pieces_a_regler.reglement_emis_id
+//       GROUP BY reglements_emis.id
+//   `;
+
+//   db.query(query, (err, rows) => {
+//     if (err) {
+//       console.error("Erreur lors de la récupération des données:", err);
+//       return res
+//         .status(500)
+//         .json({ message: "Erreur lors de la récupération des données." });
+//     }
+
+//     // Envoyer les données au client
+//     res.json(rows);
+//   });
+// });
 
 
 // Route pour ajouter un règlement émis
@@ -1339,6 +1353,40 @@ app.post("/livraison", (req, res) => {
     return res.json("Livraison ajouté avec succès");
   });
 });
+
+// Get livraison by ID
+app.get("/livraison/:id", (req, res) => {
+  const livraisonID = req.params.id;
+  const q = "SELECT * FROM `livraisons` WHERE id = ? ";
+
+  db.query(q, [livraisonID], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+
+
+
+// Modifier livraison
+app.put("/livraison/:id", async (req, res) => {
+  const livraisonID = req.params.id;
+  const newLivraison = req.body;
+
+  try {
+    await db.query("UPDATE `livraisons` SET ? WHERE id = ?", [
+      newLivraison,
+      livraisonID,
+    ]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la livraison :", error);
+    res.status(500).json({
+      error: "Erreur lors de la mise à jour de la livraison.",
+    });
+  }
+});
+
 
 /********************************************************************************** */
 /************************ Reference Commande **************************************** */

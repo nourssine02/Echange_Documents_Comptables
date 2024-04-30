@@ -64,18 +64,26 @@ const AddCommande = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, files } = e.target;
-
-    if (name === "document_fichier" && files.length > 0) {
+    const { name, value } = e.target;
+  
+    if (name === "code_tiers") {
+      const selectedCodeTier = codeTiers.find((codeTier) => codeTier.code_tiers === value);
+      if (selectedCodeTier) {
+        setCommande((prev) => ({
+          ...prev,
+          tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+        }));
+      }
+    } else if (name === "document_fichier" && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
-        const base64Data = reader.result.split(",")[1]; // Extracting base64 data
-        const url = `data:image/png;base64,${base64Data}`; // Assuming it's PNG format
+        const base64Data = reader.result.split(",")[1];
+        const url = `data:image/png;base64,${base64Data}`;
         setCommande((prev) => ({ ...prev, document_fichier: url }));
       };
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(e.target.files[0]);
     } else {
-      setCommande((prev) => ({ ...prev, [name]: e.target.value }));
+      setCommande((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -131,31 +139,7 @@ const AddCommande = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>N° de la commande:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="num_commande"
-                      onChange={handleChange}
-                      value={commande.num_commande}
-                      placeholder="N° de la commande"
-                    />
-                  </div>
 
-                  <div className="form-group">
-                    <label>Montant de la Commande:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="montant_commande"
-                      onChange={handleChange}
-                      value={commande.montant_commande}
-                      placeholder="Montant de la Commande"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
                   <div className="form-group">
                     <label>Code Tiers:</label>
 
@@ -180,7 +164,22 @@ const AddCommande = () => {
                       ))}
                     </select>
                   </div>
+                  
+                  <div className="form-group">
+                    <label>N° de la commande:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="num_commande"
+                      onChange={handleChange}
+                      value={commande.num_commande}
+                      placeholder="N° de la commande"
+                    />
+                  </div>
 
+                </div>
+                <div className="col-md-6">
+                
                   <div className="form-group">
                     <label>Tiers à Saisir:</label>
                     <input
@@ -189,9 +188,22 @@ const AddCommande = () => {
                       name="tiers_saisie"
                       onChange={handleChange}
                       value={commande.tiers_saisie}
-                      placeholder="Tiers à Saisir"
+
                     />
                   </div>
+
+                  <div className="form-group">
+                    <label>Montant de la Commande:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="montant_commande"
+                      onChange={handleChange}
+                      value={commande.montant_commande}
+                      placeholder="Montant de la Commande"
+                    />
+                  </div>
+               
                 </div>
 
                 <div className="col-md-6">

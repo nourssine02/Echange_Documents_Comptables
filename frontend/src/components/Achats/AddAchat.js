@@ -18,7 +18,7 @@ const AddAchat = () => {
     autre_montant_piece: "",
     montant_total_piece: "",
     observations: "",
-    document_fichier: ""
+    document_fichier: "",
   });
   const [codeTiers, setCodeTiers] = useState([]);
   const navigate = useNavigate();
@@ -35,23 +35,31 @@ const AddAchat = () => {
     fetchCodeTiers();
   }, []);
 
-
   const handleChange = (e) => {
-    const { name, files } = e.target;
+    const { name, value } = e.target;
   
-    if (name === "document_fichier" && files.length > 0) {
+    if (name === "code_tiers") {
+      const selectedCodeTier = codeTiers.find((codeTier) => codeTier.code_tiers === value);
+      if (selectedCodeTier) {
+        setAchat((prev) => ({
+          ...prev,
+          tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+        }));
+      }
+    } else if (name === "document_fichier" && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
-        const base64Data = reader.result.split(",")[1]; // Extracting base64 data
-        const url = `data:image/png;base64,${base64Data}`; // Assuming it's PNG format
+        const base64Data = reader.result.split(",")[1];
+        const url = `data:image/png;base64,${base64Data}`;
         setAchat((prev) => ({ ...prev, document_fichier: url }));
       };
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(e.target.files[0]);
     } else {
-      setAchat((prev) => ({ ...prev, [name]: e.target.value }));
+      setAchat((prev) => ({ ...prev, [name]: value }));
     }
   };
-  
+
+
   const handleClick = async (e) => {
     e.preventDefault();
     try {
@@ -61,8 +69,7 @@ const AddAchat = () => {
     } catch (err) {
       console.error("Error adding Achat:", err);
     }
-  };  
-
+  };
 
   const handleCancel = () => {
     navigate("/achats");
@@ -75,9 +82,10 @@ const AddAchat = () => {
           <div className="card-body">
             <h1>Ajouter un Achat</h1>
             <br />
-            <form className="forms-sample" >
+            <form className="forms-sample">
               <div className="row">
-                <div className="col-md-6">
+
+                <div className="col-md-12">
                   <div className="form-group">
                     <label>Date de Saisie:</label>
                     <input
@@ -88,7 +96,8 @@ const AddAchat = () => {
                       placeholder="Date de Saisie"
                     />
                   </div>
-
+                </div>
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>Code Tiers:</label>
 
@@ -97,6 +106,7 @@ const AddAchat = () => {
                       className="form-control form-control-lg"
                       name="code_tiers"
                       onChange={handleChange}
+                      value={achat.code_tiers}
                     >
                       <option value="" style={{ color: "black" }}>
                         Code Tiers
@@ -111,18 +121,6 @@ const AddAchat = () => {
                         </option>
                       ))}
                     </select>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Tiers à Saisir:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="tiers_saisie"
-                      onChange={handleChange}
-                      placeholder="Tiers à Saisir"
-                    />
                   </div>
 
                   <div className="form-group">
@@ -146,6 +144,17 @@ const AddAchat = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
+                    <label>Tiers à Saisir:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="tiers_saisie"
+                      onChange={handleChange}
+                      value={achat.tiers_saisie}
+                    />
+                  </div>
+
+                  <div className="form-group">
                     <label>N° de la Pièce :</label>
                     <input
                       type="text"
@@ -155,7 +164,10 @@ const AddAchat = () => {
                       placeholder="N° de la Pièce"
                     />
                   </div>
+                </div>
 
+
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>Date de la Pièce:</label>
                     <input
@@ -166,8 +178,7 @@ const AddAchat = () => {
                       placeholder="Date de la Pièce"
                     />
                   </div>
-                </div>
-                <div className="col-md-6">
+
                   <div className="form-group">
                     <label>Statut :</label>
                     <select
@@ -184,7 +195,9 @@ const AddAchat = () => {
                       <option value="non réglée">Non Réglée</option>
                     </select>
                   </div>
+                </div>
 
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>Montant HT de la Pièce:</label>
                     <input
@@ -195,8 +208,7 @@ const AddAchat = () => {
                       placeholder="Montant HT de la Pièce"
                     />
                   </div>
-                </div>
-                <div className="col-md-6">
+
                   <div className="form-group">
                     <label>FODEC sur la Pièce:</label>
                     <input
@@ -207,7 +219,9 @@ const AddAchat = () => {
                       placeholder="FODEC sur la Pièce"
                     />
                   </div>
+                </div>
 
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>TVA de la Pièce:</label>
                     <input
@@ -218,8 +232,7 @@ const AddAchat = () => {
                       placeholder="TVA de la Pièce"
                     />
                   </div>
-                </div>
-                <div className="col-md-6">
+
                   <div className="form-group">
                     <label>Timbre sur la Pièce:</label>
                     <input
@@ -230,7 +243,9 @@ const AddAchat = () => {
                       placeholder="Timbre sur la Pièce"
                     />
                   </div>
+                </div>
 
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>Autre montant sur la Pièce:</label>
                     <input
@@ -241,8 +256,7 @@ const AddAchat = () => {
                       placeholder="Autre montant sur la Pièce"
                     />
                   </div>
-                </div>
-                <div className="col-md-6">
+
                   <div className="form-group">
                     <label>Montant Total de la Pièce:</label>
                     <input
@@ -251,6 +265,18 @@ const AddAchat = () => {
                       name="montant_total_piece"
                       onChange={handleChange}
                       placeholder="Montant Total de la Pièce"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>Document / Fichier à Insérer :</label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      name="document_fichier"
+                      onChange={handleChange}
                     />
                   </div>
 
@@ -265,24 +291,27 @@ const AddAchat = () => {
                       cols={50}
                     />
                   </div>
+
                 </div>
-                <div className="col-md-6">
-                <div className="form-group">
-                  <label>Document / Fichier à Insérer :</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    name="document_fichier"
-                    onChange={handleChange}
-                  />
-                </div>
-                </div>
+                
               </div>
-              <div className="button d-flex align-items-center" style={{ gap: "10px" }}>
-                <button type="submit" onClick={handleClick} className="btn btn-primary mr-2" style={{ marginBottom: "5px" }}>
-                  Submit
+              <div
+                className="button d-flex align-items-center"
+                style={{ gap: "10px" }}
+              >
+                <button
+                  type="submit"
+                  onClick={handleClick}
+                  className="btn btn-primary mr-2"
+                  style={{ marginBottom: "5px", marginLeft: "300px" }}
+                >
+                  Ajouter
                 </button>
-                <button type="button" className="btn btn-light" onClick={handleCancel}>
+                <button
+                  type="button"
+                  className="btn btn-light"
+                  onClick={handleCancel}
+                >
                   Annuler
                 </button>
               </div>
@@ -295,4 +324,3 @@ const AddAchat = () => {
 };
 
 export default AddAchat;
-

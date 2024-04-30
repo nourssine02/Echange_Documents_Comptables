@@ -19,7 +19,20 @@ const AddLivraison = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setLivraison((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    if (name === "code_tiers") {
+      const selectedCodeTier = codeTiers.find((codeTier) => codeTier.code_tiers === value);
+      if (selectedCodeTier) {
+        setLivraison((prev) => ({
+          ...prev,
+          tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+        }));
+      }
+    } else {
+      setLivraison((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+    }
   };
 
   const handleClick = async (e) => {
@@ -87,6 +100,32 @@ const AddLivraison = () => {
                 </div>
 
                 <div className="col-md-6">
+
+                  <div className="form-group">
+                    <label>Code Tiers:</label>
+
+                    <select
+                      style={{ color: "black" }}
+                      className="form-control form-control-lg"
+                      name="code_tiers"
+                      onChange={handleChange}
+                      value={livraison.code_tiers}
+                    >
+                      <option value="" style={{ color: "black" }}>
+                        Code Tiers
+                      </option>
+                      {codeTiers.map((codeTier) => (
+                        <option
+                          key={codeTier.code_tiers}
+                          value={codeTier.code_tiers}
+                          style={{ color: "black" }}
+                        >
+                          {codeTier.code_tiers}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   <div className="form-group">
                     <label>N° du Bon de Livraison:</label>
                     <input
@@ -95,6 +134,21 @@ const AddLivraison = () => {
                       name="num_BL"
                       onChange={handleChange}
                       placeholder="N° du Bon de Livraison"
+                    />
+                  </div>
+
+
+                </div>
+                <div className="col-md-6">
+                 
+                <div className="form-group">
+                    <label>Tiers à Saisir:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="tiers_saisie"
+                      onChange={handleChange}
+                      value={livraison.tiers_saisie}
                     />
                   </div>
 
@@ -122,43 +176,8 @@ const AddLivraison = () => {
                       ))}
                     </select>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Code Tiers:</label>
 
-                    <select
-                      style={{ color: "black" }}
-                      className="form-control form-control-lg"
-                      name="code_tiers"
-                      onChange={handleChange}
-                      value={livraison.code_tiers}
-                    >
-                      <option value="" style={{ color: "black" }}>
-                        Code Tiers
-                      </option>
-                      {codeTiers.map((codeTier) => (
-                        <option
-                          key={codeTier.code_tiers}
-                          value={codeTier.code_tiers}
-                          style={{ color: "black" }}
-                        >
-                          {codeTier.code_tiers}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label>Tiers à Saisir:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="tiers_saisie"
-                      onChange={handleChange}
-                      placeholder="Tiers à Saisir"
-                    />
-                  </div>
+                 
                 </div>
 
                 <div className="col-md-6">
