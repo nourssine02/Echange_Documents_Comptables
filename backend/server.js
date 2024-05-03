@@ -5,13 +5,18 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
+const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
+
+
 
 const app = express();
-app.use(cors());
+//app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 
 
 const db = mysql.createConnection({
@@ -63,6 +68,16 @@ const sendVerificationEmail = async (email, verificationCode) => {
   console.log("Email sent: %s", info.messageId);
 };
 
+
+
+//Route to handle email verification
+app.get("/verify-email/:verificationCode", (req, res) => {
+  const verificationCode = req.params.verificationCode;
+
+  res.send("Email address verified successfully.");
+});
+
+
 app.post("/register", async (req, res) => {
   const {
     code_entreprise,
@@ -92,9 +107,6 @@ app.post("/register", async (req, res) => {
       verificationCode,
     ];
 
-    // const sql = "INSERT INTO utilisateurs (code_entreprise, code_user, identite, position, tel, email, mot_de_passe ) VALUES (?)";
-    // const values = [code_entreprise, code_user, identite, position, tel, email, mot_de_passe];
-
     db.query(sql, values, async (err, result) => {
       if (err) {
         return res.status(500).json({ error: "Internal Server Error" });
@@ -114,26 +126,84 @@ app.post("/register", async (req, res) => {
   }
 });
 
-//Route to handle email verification
-app.get("/verify-email/:verificationCode", (req, res) => {
-  const verificationCode = req.params.verificationCode;
 
-  res.send("Email address verified successfully.");
-});
-
+// Login route
 app.post("/login", (req, res) => {
-  const sql =
-    "SELECT  * FROM  utilisateurs  WHERE  identite = ? AND mot_de_passe = ?";
+  const sql = "SELECT * FROM utilisateurs WHERE identite = ? AND mot_de_passe = ?";
   const values = [req.body.identite, req.body.mot_de_passe];
 
-  db.query(sql, [values], (err, data) => {
-    if (err) return res.json("Login Failed");
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error" });
+    }
     if (data.length > 0) {
-      return res.json("Login Successfully");
+      // Generate JWT token
+      const token = jwt.sign({ identite: data[0].identite }, 'secret', { expiresIn: '1d' });
+      res.cookie('token', token, { httpOnly: true });
+      // Include user data in the response
+      res.json({ user: data[0], token }); // Assuming data[0] contains user information
     } else {
-      return res.json("No Record");
+      return res.status(401).json({ message: "Invalid credentials" });
     }
   });
+});
+
+
+// Logout route
+app.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: 'Logout successful' });
+});
+
+
+
+
+// Middleware d'autorisation basée sur les rôles
+function authorize(role) {
+  return (req, res, next) => {
+    if (req.user && req.user.role === role) {
+      next();
+    } else {
+      res.status(403).json({ message: 'Forbidden' });
+    }
+  };
+}
+
+// Exemple d'utilisation du middleware d'authentification et d'autorisation dans vos routes protégées
+app.get('/protected-route', verifyToken, authorize('super_admin'), (req, res) => {
+  // Cette route est accessible uniquement par les utilisateurs avec le rôle 'admin'
+  res.json({ message: 'Access granted' });
+});
+
+
+/*************************************************************** */
+
+// Middleware de vérification du token JWT
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  
+  jwt.verify(token.split(' ')[1], "secret", (err, decoded) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
+  
+    req.user = decoded;
+    next();
+  });
+}
+
+
+// Authenticated route
+app.get("/authenticated", verifyToken, (req, res) => {
+  res.json({ authenticated: true, identite: req.user.identite });
+}); 
+
+
+
+
+app.get("/home", (req ,res) => {
+  res.send("<h1>Home Page</h1>")
 });
 
 /**************************************************************** */

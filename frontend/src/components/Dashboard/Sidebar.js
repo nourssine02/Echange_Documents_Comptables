@@ -1,16 +1,17 @@
-// Sidebar.js
 import React from 'react';
+import { Link } from 'react-router-dom'; 
+
 
 const Sidebar = () => {
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
-      <ul className="nav" style={{marginLeft: "10px"}}>
-        <li className="nav-item" >
-          <a className="nav-link" href="/">
-            <i className="bi bi-grid menu-icon" ></i>
-            <span className="menu-title"  style={{fontSize: '14px'}}>Dashboard</span>
-          </a>
-        </li>
+    <ul className="nav" style={{ marginLeft: "10px" }}>
+      <li className="nav-item">
+        <Link className="nav-link" to="/home">
+          <i className="bi bi-grid menu-icon"></i>
+          <span className="menu-title" style={{ fontSize: '14px' }}>Dashboard</span>
+        </Link>
+      </li>
         <li className="nav-item">
           <a className="nav-link" href="/entreprises">
             <i className="bi bi-building menu-icon" ></i>
