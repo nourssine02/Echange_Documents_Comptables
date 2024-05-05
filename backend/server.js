@@ -1525,15 +1525,6 @@ app.get("/reglements_recus", (req, res) => {
 
 
 
-// app.get("/reglements_recus", (req, res) => {
-//   const q = "SELECT * FROM  reglements_recus";
-//   db.query(q, (err, data) => {
-//     if (err) return res.json(err);
-//     return res.json(data);
-//   });
-// });
-
-
 // Route pour ajouter un règlement reçu
 app.post("/reglements_recus", (req, res) => {
   const { reglement, payements, factures } = req.body;
