@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const AddReglementRecu = () => {
   const initialReglementState = {
@@ -18,45 +19,56 @@ const AddReglementRecu = () => {
     montant: "",
   };
 
-  const initialPieceState = {
-    num_piece_a_regler: "",
-    date_piece_a_regler: "",
-    montant_piece_a_regler: "",
+  const initialFactureState = {
+    num_facture: "",
+    date_facture: "",
+    montant_total_facture: "",
     document_fichier: "",
   };
-  
 
   const [reglement, setReglement] = useState(initialReglementState);
   const [payements, setPayements] = useState([initialPayementState]);
-  const [pieces, setPieces] = useState([initialPieceState]); // Initialize as an array
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = { reglement, payements, pieces };
-
-    axios
-      .post("http://localhost:5000/reglements_recus", data)
-      .then((response) => {
-        console.log(response.data.message);
-        setReglement(initialReglementState);
-        setPayements([initialPayementState]);
-        setPieces([initialPieceState]);
-        alert("Données ajoutées avec succès.");
-        navigate("/reglements_recus");
-      })
-      .catch((error) => {
-        console.error("Erreur lors de l'ajout du règlement :", error);
-        if (error.response) {
-          console.error("Contenu de la réponse :", error.response.data);
-        } else {
-          console.error("Aucune réponse reçue.");
-        }
-        alert("Erreur lors de l'ajout du règlement: " + error.message);
-      });
-  };
-
+  const [factures, setFactures] = useState([initialFactureState]);
   const [codeTiers, setCodeTiers] = useState([]);
+  const [factureOptions, setFactureOptions] = useState([]);
+  const [loadingFacture, setLoadingFacture] = useState(false);
   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      reglement: {
+        code_tiers: reglement.code_tiers,
+        tiers_saisie: reglement.tiers_saisie,
+        montant_total_a_regler: reglement.montant_total_a_regler,
+        observations: reglement.observations,
+      },
+      payements,
+      factures,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/reglements_recus",
+        data
+      );
+      console.log(response.data.message);
+      // Reset des données après succès
+      setReglement(initialReglementState);
+      setPayements([initialPayementState]);
+      setFactures([initialFactureState]);
+      alert("Données ajoutées avec succès.");
+      navigate("/reglements_recus");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du règlement :", error);
+      if (error.response) {
+        console.error("Contenu de la réponse :", error.response.data);
+      } else {
+        console.error("Aucune réponse reçue.");
+      }
+      alert("Erreur lors de l'ajout du règlement: " + error.message);
+    }
+  };
 
   useEffect(() => {
     const fetchCodeTiers = async () => {
@@ -70,10 +82,48 @@ const AddReglementRecu = () => {
     fetchCodeTiers();
   }, []);
 
+  useEffect(() => {
+    const fetchFactures = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/num_facture");
+        const options = res.data.map((num_facture) => ({
+          value: num_facture,
+          label: num_facture,
+        }));
+        setFactureOptions(options);
+      } catch (err) {
+        console.error("Error fetching factures:", err);
+      }
+    };
+    fetchFactures();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setReglement({ ...reglement, [name]: value });
+  
+    if (name === "code_tiers") {
+      const selectedCodeTier = codeTiers.find(
+        (codeTier) => codeTier.code_tiers === value
+      );
+      if (selectedCodeTier) {
+        setReglement((prev) => ({
+          ...prev,
+          code_tiers: selectedCodeTier.code_tiers,
+          tiers_saisie: selectedCodeTier.identite,
+        }));
+      } else {
+        // If no code tier is selected, reset tiers_saisie to an empty string
+        setReglement((prev) => ({
+          ...prev,
+          code_tiers: "",
+          tiers_saisie: "",
+        }));
+      }
+    } else {
+      setReglement({ ...reglement, [name]: value });
+    }
   };
+  
 
   const handleChangePayement = (e, index) => {
     const { name, value } = e.target;
@@ -101,49 +151,39 @@ const AddReglementRecu = () => {
     setPayements(updatedPayements);
   };
 
-  const handleFileChange = (e, index) => {
-    const file = e.target.files[0];
-    if (file) {
-      const updatedPieces = [...pieces];
-      if (updatedPieces[index]) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64Data = reader.result.split(",")[1];
-          const url = `data:${file.type};base64,${base64Data}`;
-          updatedPieces[index].document_fichier = url;
-          setPieces(updatedPieces);
-        };
-        reader.readAsDataURL(file);
-      }
+  const handleChangeFacture = async (facture, index) => {
+    setLoadingFacture(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/factures/${facture.value}`
+      );
+      const { id, date_facture, montant_total_facture, document_fichier } =
+        res.data;
+      const updatedFactures = [...factures];
+      updatedFactures[index] = {
+        id: id,
+        num_facture: facture.value,
+        date_facture,
+        montant_total_facture,
+        document_fichier,
+      };
+      setFactures(updatedFactures);
+    } catch (err) {
+      console.error("Error fetching facture data:", err);
+    } finally {
+      setLoadingFacture(false);
     }
   };
-  
-  
-  const handleChangePiece = (e, index) => {
-    const { name, value } = e.target;
-    const updatedPieces = [...pieces];
-    updatedPieces[index][name] = value;
-    setPieces(updatedPieces);
+
+  const addFacture = () => {
+    setFactures([...factures, initialFactureState]);
   };
-  
-  const addPiece = () => {
-    setPieces([
-      ...pieces,
-      {
-        num_piece_a_regler: "",
-        date_piece_a_regler: "",
-        montant_piece_a_regler: "",
-        document_fichier: "",
-      },
-    ]);
+
+  const removeFacture = (index) => {
+    const updatedFactures = [...factures];
+    updatedFactures.splice(index, 1);
+    setFactures(updatedFactures);
   };
-  
-  const removePiece = (index) => {
-    const updatedPieces = [...pieces];
-    updatedPieces.splice(index, 1);
-    setPieces(updatedPieces);
-  };
-  
 
   const handleCancel = () => {
     navigate("/reglements_recus");
@@ -157,6 +197,163 @@ const AddReglementRecu = () => {
             <h1>Ajouter un Règlement Reçus</h1>
             <br />
             <form className="forms-sample" onSubmit={handleSubmit}>
+              <br></br>
+
+              {factures.map((facture, index) => (
+                <div key={index} className="mb-3 border p-3">
+                  <legend>Facture à régler {index + 1}</legend>
+
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>N° Facture à régler:</label>
+                        <Select
+                          options={factureOptions}
+                          onChange={(value) => handleChangeFacture(value, index)}
+                          value={factureOptions.find(
+                            (option) => option.value === facture.num_facture
+                          )}
+                        />
+                      </div>
+                    </div>
+                    {loadingFacture ? (
+                      <p>Loading facture data...</p>
+                    ) : (
+                      <>
+                        <div className="col-md-6">
+                          <div className="form-group mb-3">
+                            <label>Dates Facture à régler:</label>
+                            <input
+                              type="date"
+                              className="form-control form-control-sm"
+                              name="date_facture"
+                              value={facture.date_facture}
+                              max={new Date().toISOString().split("T")[0]}
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group mb-3">
+                            <label>Montants Facture à régler:</label>
+                            <input
+                              type="number"
+                              className="form-control form-control-sm"
+                              name="montant_total_facture"
+                              value={facture.montant_total_facture}
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group mb-3">
+                            <label>Document / Fichier à Insérer :</label>
+                            <br />
+                            <button
+                              type="button"
+                              className="btn btn-link"
+                              data-toggle="modal"
+                              data-target=".bd-example-modal-lg"
+                            >
+                              {" "}
+                              View Document
+                            </button>
+                            {/* Modal */}
+                            <div
+                              className="modal fade bd-example-modal-lg"
+                              tabIndex="-1"
+                              role="dialog"
+                              aria-labelledby="myLargeModalLabel"
+                              aria-hidden="true"
+                            >
+                              <div className="modal-dialog modal-lg">
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5
+                                      className="modal-title"
+                                      id="exampleModalLongTitle"
+                                    >
+                                      Facture Document
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="close"
+                                      data-dismiss="modal"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+
+                                  <div className="modal-body">
+                                    <img
+                                      src={facture.document_fichier}
+                                      alt="Facture Document"
+                                      style={{ width: "100%" }}
+                                    />
+                                  </div>
+                                  <div className="modal-footer">
+                                    <button
+                                      type="button"
+                                      className="btn btn-outline-dark btn-icon-text"
+                                      data-dismiss="modal"
+                                    >
+                                      <i className="bi bi-close"></i>
+                                      Close
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn btn-outline-danger btn-icon-text"
+                                      onClick={() => {
+                                        const link =
+                                          document.createElement("a");
+                                        link.href = `${facture.document_fichier}`;
+                                        link.download = "document_image.jpg";
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        document.body.removeChild(link);
+                                      }}
+                                    >
+                                      <i className="bi bi-download"></i>
+                                      Télécharger
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {/* Modal */}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    <div className="col-md-6">
+                      <div className="form-group d-flex align-items-end mb-0">
+                        <button
+                          onClick={() => removeFacture(index)}
+                          type="button"
+                          className="btn btn-danger btn-sm me-2"
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                        &nbsp;
+                        {index === factures.length - 1 && (
+                          <button
+                            onClick={addFacture}
+                            type="button"
+                            className="btn btn-success btn-sm"
+                          >
+                            <i className="bi bi-plus-circle"></i>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <br></br>
+              <hr />
+
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
@@ -183,18 +380,21 @@ const AddReglementRecu = () => {
                       ))}
                     </select>
                   </div>
+                </div>
+
+                <div className="col-md-6">
                   <div className="form-group">
-                    <label>Tiers Saisie:</label>
+                    <label>Tiers à Saisir:</label>
                     <input
                       type="text"
-                      name="tiers_saisie"
-                      value={reglement.tiers_saisie}
-                      onChange={handleChange}
-                      required
                       className="form-control"
+                      name="tiers_saisie"
+                      onChange={handleChange}
+                      value={reglement.tiers_saisie}
                     />
                   </div>
                 </div>
+
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Montant Total à Régler :</label>
@@ -203,11 +403,13 @@ const AddReglementRecu = () => {
                       name="montant_total_a_regler"
                       value={reglement.montant_total_a_regler}
                       onChange={handleChange}
-                      required
-                      className="form-control"
+                      className="form-control form-control-lg"
+                      placeholder="Montant Total à Régler"
                     />
                   </div>
+                </div>
 
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>Observations:</label>
                     <textarea
@@ -215,91 +417,13 @@ const AddReglementRecu = () => {
                       name="observations"
                       onChange={handleChange}
                       placeholder="Entrez vos observations ici..."
-                      rows={5}
-                      cols={50}
+                      rows={2}
+                      cols={20}
                       value={reglement.observations}
                     />
                   </div>
                 </div>
               </div>
-              <br></br>
-              <br></br>
-              <hr />
-
-              {pieces.map((piece, index) => (
-                <div key={index} className="mb-3">
-                  <legend>Facture à régler {index + 1}</legend>
-                  <div className="row">
-                    <div className="col-md-18 ml-2">
-                      <div className="d-inline-flex">
-                        <div className="form-group">
-                          <label>N° Facture à régler:</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="num_piece_a_regler"
-                            value={piece.num_piece_a_regler}
-                            onChange={(e) => handleChangePiece(e, index)}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Dates Facture à régler:</label>
-                          <input
-                            type="date"
-                            className="form-control"
-                            name="date_piece_a_regler"
-                            value={piece.date_piece_a_regler}
-                            onChange={(e) => handleChangePiece(e, index)}
-                            max={new Date().toISOString().split("T")[0]}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Montants Facture à régler:</label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            name="montant_piece_a_regler"
-                            value={piece.montant_piece_a_regler}
-                            onChange={(e) => handleChangePiece(e, index)}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Document / Fichier à Insérer :</label>
-                          <input
-                            type="file"
-                            className="form-control"
-                            name="document_fichier"
-                            onChange={(e) => handleFileChange(e, index)} 
-                          />
-
-                        </div>
-                        <br />
-                        <div className="d-flex align-items-start">
-                          <div className="col-md">
-                            <button
-                              onClick={() => removePiece(index)}
-                              type="button"
-                              className="btn btn-danger btn-sm mt-2 me-2"
-                            >
-                              <i className="bi bi-trash"></i>
-                            </button>
-                            &nbsp;
-                            {index === pieces.length - 1 && (
-                              <button
-                                onClick={addPiece}
-                                type="button"
-                                className="btn btn-success btn-sm mt-2"
-                              >
-                                <i className="bi bi-plus-circle"></i>
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
               <hr />
               <br></br>
               <legend>paiements :</legend>
@@ -313,7 +437,7 @@ const AddReglementRecu = () => {
                           style={{ color: "black" }}
                           value={payement.modalite}
                           name="modalite"
-                          className="form-control mr-5"
+                          className="form-control mr-3"
                           onChange={(e) => handleChangePayement(e, index)}
                         >
                           <option value="">Sélectionnez une option</option>
@@ -332,7 +456,7 @@ const AddReglementRecu = () => {
                           type="text"
                           value={payement.num}
                           name="num"
-                          className="form-control"
+                          className="form-control mr-3"
                           onChange={(e) => handleChangePayement(e, index)}
                         />
                       </div>{" "}
@@ -342,7 +466,7 @@ const AddReglementRecu = () => {
                           style={{ color: "black" }}
                           value={payement.banque}
                           name="banque"
-                          className="form-control mr-5"
+                          className="form-control mr-3"
                           onChange={(e) => handleChangePayement(e, index)}
                         >
                           <option value="">Sélectionnez une option</option>
@@ -357,7 +481,7 @@ const AddReglementRecu = () => {
                           type="date"
                           value={payement.date_echeance}
                           name="date_echeance"
-                          className="form-control"
+                          className="form-control mr-3"
                           onChange={(e) => handleChangePayement(e, index)}
                         />
                       </div>{" "}
@@ -367,7 +491,7 @@ const AddReglementRecu = () => {
                           type="number"
                           value={payement.montant}
                           name="montant"
-                          className="form-control"
+                          className="form-control mr-3"
                           onChange={(e) => handleChangePayement(e, index)}
                         />
                       </div>
@@ -397,7 +521,6 @@ const AddReglementRecu = () => {
                   </div>
                 </div>
               ))}
-
               <br></br>
               <div
                 className="button d-flex align-items-center"

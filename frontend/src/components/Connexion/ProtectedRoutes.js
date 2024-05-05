@@ -33,7 +33,6 @@ import DetailsCommande from "../Commandes/DetailsCommande";
 import UpdateCommande from "../Commandes/UpdateCommande";
 import UpdateLivraison from "../Livraisons/UpdateLivraison";
 import DetailsLivraison from "../Livraisons/DetailsLivraison";
-import NotFound from "./NotFound";
 import { UserContext } from "./UserProvider";
 
 
@@ -47,6 +46,7 @@ const ProtectedRoutes = () => {
   }
 
   return (
+    <>
     <div className="container-fluid page-body-wrapper">
       <Navbar />
       <Sidebar />
@@ -82,10 +82,15 @@ const ProtectedRoutes = () => {
         <Route path="/addFacture" element={<AddFacture />} />
         <Route path="/reglements_recus" element={<ReglementsRecus />} />
         <Route path="/addReglementRecu" element={<AddReglementRecu />} />
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
+    </>
   );
 };
 
+
 export default ProtectedRoutes;
+
+
+
+

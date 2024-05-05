@@ -43,7 +43,15 @@ const AddAchat = () => {
       if (selectedCodeTier) {
         setAchat((prev) => ({
           ...prev,
-          tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+          code_tiers: selectedCodeTier.code_tiers, 
+          tiers_saisie: selectedCodeTier.identite 
+        }));
+      } else {
+        // If no code tier is selected, reset tiers_saisie to an empty string
+        setAchat((prev) => ({
+          ...prev,
+          code_tiers: "",
+          tiers_saisie: "",
         }));
       }
     } else if (name === "document_fichier" && e.target.files.length > 0) {

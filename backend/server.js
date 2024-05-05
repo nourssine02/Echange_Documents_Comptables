@@ -5,19 +5,15 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
-
-
 const app = express();
-//app.use(cors());
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 
 const db = mysql.createConnection({
   database: "cloud",
@@ -32,7 +28,6 @@ db.connect((err) => {
   if (err) throw err;
   console.log("Connected to the MySQL database");
 });
-
 
 // Définition de routes
 app.get("/", (req, res) => {
@@ -68,15 +63,12 @@ const sendVerificationEmail = async (email, verificationCode) => {
   console.log("Email sent: %s", info.messageId);
 };
 
-
-
 //Route to handle email verification
 app.get("/verify-email/:verificationCode", (req, res) => {
   const verificationCode = req.params.verificationCode;
 
   res.send("Email address verified successfully.");
 });
-
 
 app.post("/register", async (req, res) => {
   const {
@@ -126,10 +118,10 @@ app.post("/register", async (req, res) => {
   }
 });
 
-
 // Login route
 app.post("/login", (req, res) => {
-  const sql = "SELECT * FROM utilisateurs WHERE identite = ? AND mot_de_passe = ?";
+  const sql =
+    "SELECT * FROM utilisateurs WHERE identite = ? AND mot_de_passe = ?";
   const values = [req.body.identite, req.body.mot_de_passe];
 
   db.query(sql, values, (err, data) => {
@@ -139,8 +131,10 @@ app.post("/login", (req, res) => {
     }
     if (data.length > 0) {
       // Generate JWT token
-      const token = jwt.sign({ identite: data[0].identite }, 'secret', { expiresIn: '1d' });
-      res.cookie('token', token, { httpOnly: true });
+      const token = jwt.sign({ identite: data[0].identite }, "secret", {
+        expiresIn: "1d",
+      });
+      res.cookie("token", token, { httpOnly: true });
       // Include user data in the response
       res.json({ user: data[0], token }); // Assuming data[0] contains user information
     } else {
@@ -149,15 +143,11 @@ app.post("/login", (req, res) => {
   });
 });
 
-
 // Logout route
-app.post('/logout', (req, res) => {
-  res.clearCookie('token');
-  res.json({ message: 'Logout successful' });
+app.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "Logout successful" });
 });
-
-
-
 
 // Middleware d'autorisation basée sur les rôles
 function authorize(role) {
@@ -165,17 +155,21 @@ function authorize(role) {
     if (req.user && req.user.role === role) {
       next();
     } else {
-      res.status(403).json({ message: 'Forbidden' });
+      res.status(403).json({ message: "Forbidden" });
     }
   };
 }
 
 // Exemple d'utilisation du middleware d'authentification et d'autorisation dans vos routes protégées
-app.get('/protected-route', verifyToken, authorize('super_admin'), (req, res) => {
-  // Cette route est accessible uniquement par les utilisateurs avec le rôle 'admin'
-  res.json({ message: 'Access granted' });
-});
-
+app.get(
+  "/protected-route",
+  verifyToken,
+  authorize("super_admin"),
+  (req, res) => {
+    // Cette route est accessible uniquement par les utilisateurs avec le rôle 'admin'
+    res.json({ message: "Access granted" });
+  }
+);
 
 /*************************************************************** */
 
@@ -184,26 +178,22 @@ function verifyToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (!token) return res.status(401).json({ message: "Unauthorized" });
-  
-  jwt.verify(token.split(' ')[1], "secret", (err, decoded) => {
+
+  jwt.verify(token.split(" ")[1], "secret", (err, decoded) => {
     if (err) return res.status(403).json({ message: "Invalid token" });
-  
+
     req.user = decoded;
     next();
   });
 }
 
-
 // Authenticated route
 app.get("/authenticated", verifyToken, (req, res) => {
   res.json({ authenticated: true, identite: req.user.identite });
-}); 
+});
 
-
-
-
-app.get("/home", (req ,res) => {
-  res.send("<h1>Home Page</h1>")
+app.get("/home", (req, res) => {
+  res.send("<h1>Home Page</h1>");
 });
 
 /**************************************************************** */
@@ -293,7 +283,6 @@ app.get("/entreprises/:id", (req, res) => {
     return res.json(data);
   });
 });
-
 
 /************************************************************/
 /**********************Utilisateurs**************************/
@@ -560,7 +549,6 @@ app.delete("/achats/:id", (req, res) => {
 
 /************************ code_tiers **************************************** */
 
-
 app.get("/code_tiers", (req, res) => {
   const query = "SELECT `identite`, code_tiers FROM tiers";
 
@@ -615,7 +603,6 @@ app.get("/reglements_emis", (req, res) => {
 //   });
 // });
 
-
 // Route pour ajouter un règlement émis
 app.post("/reglements_emis", (req, res) => {
   const { reglement, payements, pieces } = req.body;
@@ -649,11 +636,9 @@ app.post("/reglements_emis", (req, res) => {
         if (err) {
           console.error("Erreur lors de l'insertion du règlement émis:", err);
           return db.rollback(() => {
-            return res
-              .status(500)
-              .json({
-                message: "Erreur lors de l'insertion du règlement émis.",
-              });
+            return res.status(500).json({
+              message: "Erreur lors de l'insertion du règlement émis.",
+            });
           });
         }
 
@@ -718,12 +703,9 @@ app.post("/reglements_emis", (req, res) => {
                   err
                 );
                 db.rollback(() => {
-                  return res
-                    .status(500)
-                    .json({
-                      message:
-                        "Erreur lors de la validation de la transaction.",
-                    });
+                  return res.status(500).json({
+                    message: "Erreur lors de la validation de la transaction.",
+                  });
                 });
               } else {
                 // Réponse de succès
@@ -737,12 +719,9 @@ app.post("/reglements_emis", (req, res) => {
               err
             );
             db.rollback(() => {
-              res
-                .status(500)
-                .json({
-                  message:
-                    "Erreur lors de l'insertion des paiements ou pièces.",
-                });
+              res.status(500).json({
+                message: "Erreur lors de l'insertion des paiements ou pièces.",
+              });
             });
           });
       }
@@ -840,7 +819,7 @@ app.put("/reglements_emis/:id", async (req, res) => {
     await db.query("DELETE FROM `payements` WHERE reglement_emis_id = ?", [
       reglementID,
     ]);
-    
+
     // Supprimer les pièces associées au règlement
     await db.query(
       "DELETE FROM `pieces_a_regler` WHERE reglement_emis_id = ?",
@@ -877,7 +856,6 @@ app.put("/reglements_emis/:id", async (req, res) => {
     });
   }
 });
-
 
 // Route pour ajouter un payement
 app.post("/payements", async (req, res) => {
@@ -981,169 +959,7 @@ app.delete("/pieces_a_regler/:id", async (req, res) => {
 });
 
 /****************************************************************** */
-/**********************reglements recus **************************/
-
-// Afficher tous les règlements recus
-app.get("/reglements_recus", (req, res) => {
-  const query = `
-      SELECT
-          reglements_recus.id AS id,
-          reglements_recus.code_tiers,
-          reglements_recus.tiers_saisie,
-          reglements_recus.montant_total_a_regler,
-          pieces_a_regler.num_piece_a_regler,
-          pieces_a_regler.date_piece_a_regler,
-          pieces_a_regler.montant_piece_a_regler
-      FROM reglements_recus
-      LEFT JOIN pieces_a_regler ON reglements_recus.id = pieces_a_regler.reglement_recus_id
-  `;
-
-  db.query(query, (err, rows) => {
-    if (err) {
-      console.error("Erreur lors de la récupération des données:", err);
-      return res
-        .status(500)
-        .json({ message: "Erreur lors de la récupération des données." });
-    }
-
-    // Envoyer les données au client
-    res.json(rows);
-  });
-});
-
-// Route pour ajouter un règlement reçu
-app.post("/reglements_recus", (req, res) => {
-  const { reglement, payements, pieces } = req.body;
-
-  // Commencer une transaction
-  db.beginTransaction((err) => {
-    if (err) {
-      console.error("Erreur lors de la création de la transaction:", err);
-      return res
-        .status(500)
-        .json({ message: "Erreur lors de la création de la transaction." });
-    }
-
-    // Insérer le règlement recu
-    const insertReglementQuery =
-      "INSERT INTO reglements_recus (code_tiers, tiers_saisie, montant_total_a_regler, observations) VALUES (?, ?, ?, ?)";
-    db.query(
-      insertReglementQuery,
-      [
-        reglement.code_tiers,
-        reglement.tiers_saisie,
-        reglement.montant_total_a_regler,
-        reglement.observations,
-      ],
-      (err, result) => {
-        if (err) {
-          console.error("Erreur lors de l'insertion du règlement recu:", err);
-          return db.rollback(() => {
-            return res
-              .status(500)
-              .json({
-                message: "Erreur lors de l'insertion du règlement recu.",
-              });
-          });
-        }
-
-        const reglementId = result.insertId;
-
-        // Gérer l'insertion des paiements et des pièces de manière asynchrone
-        const payementPromises = payements.map((payement) => {
-          return new Promise((resolve, reject) => {
-            const insertPayementQuery =
-              "INSERT INTO payements (modalite, num, banque, date_echeance, montant, reglement_recus_id) VALUES (?, ?, ?, ?, ?, ?)";
-            db.query(
-              insertPayementQuery,
-              [
-                payement.modalite,
-                payement.num,
-                payement.banque,
-                payement.date_echeance,
-                payement.montant,
-                reglementId,
-              ],
-              (err) => {
-                if (err) {
-                  return reject(err);
-                }
-                resolve();
-              }
-            );
-          });
-        });
-
-        const piecePromises = pieces.map((piece) => {
-          return new Promise((resolve, reject) => {
-            const insertPieceQuery =
-              "INSERT INTO pieces_a_regler (num_piece_a_regler, date_piece_a_regler, montant_piece_a_regler, document_fichier, reglement_recus_id) VALUES (?, ?, ?, ?, ?)";
-            db.query(
-              insertPieceQuery,
-              [
-                piece.num_piece_a_regler,
-                piece.date_piece_a_regler,
-                piece.montant_piece_a_regler,
-                piece.document_fichier,
-                reglementId,
-              ],
-              (err) => {
-                if (err) {
-                  return reject(err);
-                }
-                resolve();
-              }
-            );
-          });
-        });
-
-        // Attendre que toutes les promesses soient résolues
-        Promise.all([...payementPromises, ...piecePromises])
-          .then(() => {
-            // Confirmer la transaction
-            db.commit((err) => {
-              if (err) {
-                console.error(
-                  "Erreur lors de la validation de la transaction:",
-                  err
-                );
-                db.rollback(() => {
-                  return res
-                    .status(500)
-                    .json({
-                      message:
-                        "Erreur lors de la validation de la transaction.",
-                    });
-                });
-              } else {
-                // Réponse de succès
-                res.json({ message: "Règlement recu ajouté avec succès." });
-              }
-            });
-          })
-          .catch((err) => {
-            console.error(
-              "Erreur lors de l'insertion des paiements ou pièces:",
-              err
-            );
-            db.rollback(() => {
-              res
-                .status(500)
-                .json({
-                  message:
-                    "Erreur lors de l'insertion des paiements ou pièces.",
-                });
-            });
-          });
-      }
-    );
-  });
-});
-
-
-/****************************************************************** */
 /**********************Commandes ***********************************/
-
 
 // affichier all Commandes
 app.get("/commandes", (req, res) => {
@@ -1153,8 +969,6 @@ app.get("/commandes", (req, res) => {
     return res.json(data);
   });
 });
-
-
 
 // Route pour ajouter une commande
 app.post("/commande", (req, res) => {
@@ -1182,17 +996,15 @@ app.post("/commande", (req, res) => {
         commande.montant_commande,
         commande.date_livraison_prevue,
         commande.observations,
-        commande.document_fichier
+        commande.document_fichier,
       ],
       (err, result) => {
         if (err) {
           console.error("Erreur lors de l'insertion de la commande :", err);
           return db.rollback(() => {
-            return res
-              .status(500)
-              .json({
-                message: "Erreur lors de l'insertion de la commande."
-              });
+            return res.status(500).json({
+              message: "Erreur lors de l'insertion de la commande.",
+            });
           });
         }
 
@@ -1210,7 +1022,7 @@ app.post("/commande", (req, res) => {
                 famille.sous_famille,
                 famille.article,
                 famille.quantite,
-                commandeId
+                commandeId,
               ],
               (err) => {
                 if (err) {
@@ -1233,12 +1045,9 @@ app.post("/commande", (req, res) => {
                   err
                 );
                 db.rollback(() => {
-                  return res
-                    .status(500)
-                    .json({
-                      message:
-                        "Erreur lors de la validation de la transaction."
-                    });
+                  return res.status(500).json({
+                    message: "Erreur lors de la validation de la transaction.",
+                  });
                 });
               } else {
                 // Réponse de succès
@@ -1250,7 +1059,7 @@ app.post("/commande", (req, res) => {
             console.error("Erreur lors de l'insertion des familles :", err);
             db.rollback(() => {
               res.status(500).json({
-                message: "Erreur lors de l'insertion des familles."
+                message: "Erreur lors de l'insertion des familles.",
               });
             });
           });
@@ -1258,7 +1067,6 @@ app.post("/commande", (req, res) => {
     );
   });
 });
-
 
 app.put("/commande/:id", async (req, res) => {
   const commandeID = req.params.id;
@@ -1307,7 +1115,6 @@ app.put("/commande/:id", async (req, res) => {
   }
 });
 
-
 // Route pour récupérer une commande par son ID avec ses familles
 app.get("/commande/:id", (req, res) => {
   const commandeID = req.params.id;
@@ -1315,7 +1122,6 @@ app.get("/commande/:id", (req, res) => {
   // Initialisation des objets de données vides
   let commande = null;
   let familles = [];
- 
 
   // Fonction pour répondre au client
   const respondToClient = () => {
@@ -1350,9 +1156,8 @@ app.get("/commande/:id", (req, res) => {
       }
 
       familles = familleRows;
-        // Toutes les données sont collectées, on peut répondre au client
+      // Toutes les données sont collectées, on peut répondre au client
       respondToClient();
-
     });
   });
 });
@@ -1386,12 +1191,8 @@ app.delete("/familles/:id", async (req, res) => {
   }
 });
 
-
-
-
 /****************************************************************** */
 /**********************Livraisons ***********************************/
-
 
 // affichier all Livraisons
 app.get("/livraisons", (req, res) => {
@@ -1416,7 +1217,7 @@ app.post("/livraison", (req, res) => {
     req.body.TVA_BL,
     req.body.montant_total_BL,
     req.body.observations,
-    req.body.document_fichier
+    req.body.document_fichier,
   ];
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);
@@ -1434,9 +1235,6 @@ app.get("/livraison/:id", (req, res) => {
     return res.json(data);
   });
 });
-
-
-
 
 // Modifier livraison
 app.put("/livraison/:id", async (req, res) => {
@@ -1456,7 +1254,6 @@ app.put("/livraison/:id", async (req, res) => {
     });
   }
 });
-
 
 /********************************************************************************** */
 /************************ Reference Commande **************************************** */
@@ -1479,56 +1276,57 @@ app.get("/reference_livraison", (req, res) => {
   });
 });
 
-
 /******************************** Familles **************************************** */
 
 // Route pour gérer les suggestions de familles
-app.get('/familles', (req, res) => {
-  const query = 'SELECT DISTINCT famille FROM familles';
+app.get("/familles", (req, res) => {
+  const query = "SELECT DISTINCT famille FROM familles";
   db.query(query, (err, results) => {
     if (err) {
-      console.error('Erreur lors de l\'exécution de la requête SQL:', err);
-      res.status(500).json({ error: 'Erreur lors de la récupération des suggestions de familles' });
+      console.error("Erreur lors de l'exécution de la requête SQL:", err);
+      res
+        .status(500)
+        .json({
+          error: "Erreur lors de la récupération des suggestions de familles",
+        });
     } else {
-      const familles = results.map(row => row.famille);
+      const familles = results.map((row) => row.famille);
       res.json(familles);
     }
   });
 });
 
-
 // Route pour récupérer les données des familles en fonction de la valeur dans l'URL
-app.get('/familles/:famille', (req, res) => {
+app.get("/familles/:famille", (req, res) => {
   const famille = req.params.famille;
 
   // Requête SQL pour récupérer les données de famille en fonction de la valeur donnée
-  const sql = 'SELECT famille, sous_famille, article, quantite FROM familles WHERE famille = ?';
+  const sql =
+    "SELECT famille, sous_famille, article, quantite FROM familles WHERE famille = ?";
 
   // Exécution de la requête SQL avec la valeur donnée
   db.query(sql, [famille], (err, results) => {
     if (err) {
-      console.error('Erreur lors de l\'exécution de la requête SQL :', err);
-      res.status(500).json({ message: 'Erreur lors de la récupération des données de famille' });
+      console.error("Erreur lors de l'exécution de la requête SQL :", err);
+      res
+        .status(500)
+        .json({
+          message: "Erreur lors de la récupération des données de famille",
+        });
     } else {
       // Si des résultats sont trouvés, les renvoyer
       if (results.length > 0) {
         res.json(results[0]); // Nous renvoyons uniquement le premier résultat ici
       } else {
         // Sinon, renvoyer une réponse indiquant que la famille n'a pas été trouvée
-        res.status(404).json({ message: 'Famille non trouvée' });
+        res.status(404).json({ message: "Famille non trouvée" });
       }
     }
   });
 });
 
-
-
-
-
-
 /****************************************************************************** */
 /********************************Facturations ***********************************/
-
 
 // affichier all Facturations
 app.get("/facturations", (req, res) => {
@@ -1539,7 +1337,6 @@ app.get("/facturations", (req, res) => {
   });
 });
 
-
 // Route pour ajouter une facture
 app.post("/facture", (req, res) => {
   const { facture, familles } = req.body;
@@ -1548,7 +1345,9 @@ app.post("/facture", (req, res) => {
   db.beginTransaction((err) => {
     if (err) {
       console.error("Erreur lors de la création de la transaction :", err);
-      return res.status(500).json({ message: "Erreur lors de la création de la transaction." });
+      return res
+        .status(500)
+        .json({ message: "Erreur lors de la création de la transaction." });
     }
 
     // Insérer la facture
@@ -1569,13 +1368,15 @@ app.post("/facture", (req, res) => {
         facture.autre_montant_facture,
         facture.montant_total_facture,
         facture.observations,
-        facture.document_fichier
+        facture.document_fichier,
       ],
       (err, result) => {
         if (err) {
           console.error("Erreur lors de l'insertion de la facture :", err);
           return db.rollback(() => {
-            return res.status(500).json({ message: "Erreur lors de l'insertion de la facture." });
+            return res
+              .status(500)
+              .json({ message: "Erreur lors de l'insertion de la facture." });
           });
         }
 
@@ -1593,7 +1394,7 @@ app.post("/facture", (req, res) => {
                 famille.sous_famille,
                 famille.article,
                 famille.quantite,
-                factureId
+                factureId,
               ],
               (err) => {
                 if (err) {
@@ -1611,9 +1412,17 @@ app.post("/facture", (req, res) => {
             // Confirmer la transaction
             db.commit((err) => {
               if (err) {
-                console.error("Erreur lors de la validation de la transaction :", err);
+                console.error(
+                  "Erreur lors de la validation de la transaction :",
+                  err
+                );
                 db.rollback(() => {
-                  return res.status(500).json({ message: "Erreur lors de la validation de la transaction." });
+                  return res
+                    .status(500)
+                    .json({
+                      message:
+                        "Erreur lors de la validation de la transaction.",
+                    });
                 });
               } else {
                 // Réponse de succès
@@ -1624,13 +1433,157 @@ app.post("/facture", (req, res) => {
           .catch((err) => {
             console.error("Erreur lors de l'insertion des familles :", err);
             db.rollback(() => {
-              res.status(500).json({ message: "Erreur lors de l'insertion des familles." });
+              res
+                .status(500)
+                .json({ message: "Erreur lors de l'insertion des familles." });
             });
           });
       }
     );
   });
 });
+
+// Route pour récupérer les données des factures
+app.get("/factures/:num_facture", (req, res) => {
+  const num_facture = req.params.num_facture;
+
+  const sql =
+    "SELECT `id`,`date_facture`, `montant_total_facture`, `document_fichier` FROM `facturations` WHERE num_facture = ?";
+
+  // Exécution de la requête SQL avec la valeur donnée
+  db.query(sql, [num_facture], (err, results) => {
+    if (err) {
+      console.error("Erreur lors de l'exécution de la requête SQL :", err);
+      res
+        .status(500)
+        .json({
+          message: "Erreur lors de la récupération des données de facture",
+        });
+    } else {
+      // Si des résultats sont trouvés, les renvoyer
+      if (results.length > 0) {
+        res.json(results[0]); // Nous renvoyons uniquement le premier résultat ici
+      } else {
+        // Sinon, renvoyer une réponse indiquant que la facture n'a pas été trouvée
+        res.status(404).json({ message: "facture non trouvée" });
+      }
+    }
+  });
+});
+
+// Route pour gérer les suggestions de factures
+app.get("/num_facture", (req, res) => {
+  const query = "SELECT DISTINCT id , num_facture FROM facturations";
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Erreur lors de l'exécution de la requête SQL:", err);
+      res
+        .status(500)
+        .json({
+          error:
+            "Erreur lors de la récupération des suggestions de num_facture",
+        });
+    } else {
+      const num_facture = results.map((row) => row.num_facture);
+      res.json(num_facture);
+    }
+  });
+});
+
+/****************************************************************** */
+/**********************reglements recus **************************/
+
+// Afficher tous les règlements recus
+app.get("/reglements_recus", (req, res) => {
+  const query = `
+      SELECT
+          reglements_recus.id AS id,
+          reglements_recus.code_tiers,
+          reglements_recus.tiers_saisie,
+          reglements_recus.montant_total_a_regler,
+          facturations.num_facture,
+          facturations.date_facture,
+          facturations.montant_total_facture
+      FROM reglements_recus
+      LEFT JOIN reglements_recus_factures ON reglements_recus.id = reglements_recus_factures.reglement_recu_id
+      LEFT JOIN facturations ON reglements_recus_factures.facture_id = facturations.id
+  `;
+
+  db.query(query, (err, rows) => {
+    if (err) {
+      console.error("Erreur lors de la récupération des données:", err);
+      return res
+        .status(500)
+        .json({ message: "Erreur lors de la récupération des données." });
+    }
+
+    // Envoyer les données au client
+    res.json(rows);
+  });
+});
+
+
+
+
+// app.get("/reglements_recus", (req, res) => {
+//   const q = "SELECT * FROM  reglements_recus";
+//   db.query(q, (err, data) => {
+//     if (err) return res.json(err);
+//     return res.json(data);
+//   });
+// });
+
+
+// Route pour ajouter un règlement reçu
+app.post("/reglements_recus", (req, res) => {
+  const { reglement, payements, factures } = req.body;
+
+  // Insertion du règlement reçu
+  db.query(
+    "INSERT INTO reglements_recus (code_tiers, tiers_saisie, montant_total_a_regler, observations) VALUES (?, ?, ?, ?)",
+    [reglement.code_tiers, reglement.tiers_saisie, reglement.montant_total_a_regler, reglement.observations],
+    (err, result) => {
+      if (err) {
+        console.error("Erreur lors de l'ajout du règlement reçu :", err);
+        return res.status(500).json({ error: "Erreur lors de l'ajout du règlement reçu." });
+      }
+
+      // Récupération de l'ID du règlement reçu inséré
+      const reglementRecuId = result.insertId;
+
+      // Insertion des paiements
+      payements.forEach((payement) => {
+        db.query(
+          "INSERT INTO payements (modalite, num, banque, date_echeance, montant, reglement_recus_id) VALUES (?, ?, ?, ?, ?, ?)",
+          [payement.modalite, payement.num, payement.banque, payement.date_echeance, payement.montant, reglementRecuId],
+          (err) => {
+            if (err) {
+              console.error("Erreur lors de l'ajout du paiement :", err);
+              return res.status(500).json({ error: "Erreur lors de l'ajout du paiement." });
+            }
+          }
+        );
+      });
+
+      // Insertion des factures
+      factures.forEach((facture) => {
+        db.query(
+          "INSERT INTO reglements_recus_factures (reglement_recu_id, facture_id) VALUES (?, ?)",
+          [reglementRecuId, facture.id],
+          (err) => {
+            if (err) {
+              console.error("Erreur lors de l'ajout de la facture :", err);
+              return res.status(500).json({ error: "Erreur lors de l'ajout de la facture." });
+            }
+          }
+        );
+      });
+
+      return res.status(200).json({ message: "Données ajoutées avec succès." });
+    }
+  );
+});
+
 
 /***************************************************************** */
 

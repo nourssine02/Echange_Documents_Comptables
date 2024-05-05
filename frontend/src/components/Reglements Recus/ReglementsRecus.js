@@ -63,13 +63,13 @@ const ReglementsRecus = () => {
                           <td>{reglement.code_tiers}</td>
                           <td>{reglement.tiers_saisie}</td>
                           <td>{reglement.montant_total_a_regler}</td>
-                          <td>{reglement.num_piece_a_regler}</td>
+                          <td>{reglement.num_facture}</td>
                           <td>
                             {new Date(
-                              reglement.date_piece_a_regler
+                              reglement.date_facture
                             ).toLocaleDateString()}
                           </td>
-                          <td>{reglement.montant_piece_a_regler}</td>                          
+                          <td>{reglement.montant_total_facture}</td>                          
                           <td>
                             <Link to={`/detailsReglementRecu/${reglement.id}`}>
                               <button type="button" className="btn btn-primary">

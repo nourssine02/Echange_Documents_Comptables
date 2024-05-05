@@ -82,7 +82,15 @@ const AddReglement = () => {
       if (selectedCodeTier) {
         setReglement((prev) => ({
           ...prev,
+          code_tiers: selectedCodeTier.code_tiers, 
           tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+        }));
+      } else {
+        // If no code tier is selected, reset tiers_saisie to an empty string
+        setReglement((prev) => ({
+          ...prev,
+          code_tiers: "",
+          tiers_saisie: "",
         }));
       }
     } else {

@@ -55,7 +55,6 @@ const AddFacture = () => {
   };
 
   const [codeTiers, setCodeTiers] = useState([]);
-  //  const [familleList, setFamilleList] = useState([]);
   const [options, setOptions] = useState([]);
 
   const navigate = useNavigate();
@@ -82,7 +81,15 @@ const AddFacture = () => {
       if (selectedCodeTier) {
         setFacture((prev) => ({
           ...prev,
+          code_tiers: selectedCodeTier.code_tiers, 
           tiers_saisie: selectedCodeTier.identite // Mettre à jour le champ tiers_saisie avec l'identité correspondante
+        }));
+      } else {
+        // If no code tier is selected, reset tiers_saisie to an empty string
+        setFacture((prev) => ({
+          ...prev,
+          code_tiers: "",
+          tiers_saisie: "",
         }));
       }
     } else if (name === "document_fichier" && e.target.files.length > 0) {
