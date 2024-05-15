@@ -110,16 +110,16 @@ const DetailsAchat = () => {
               <h1 className="card-title">Détails de l'Achat</h1>
               <ul className="list-arrow" style={{ fontSize: "14px" }}>
                 <li>
-                  <strong>Date de Saisie :</strong> {achat.date_saisie}
+                  <strong style={{ color: "darkgreen", fontWeight: "bold" }}>Date de Saisie :</strong> {achat.date_saisie}
                 </li>
                 <li>
-                  <strong>Code Tiers :</strong> {achat.code_tiers}
+                  <strong style={{ color: "darkgreen", fontWeight: "bold" }}>Code Tiers :</strong> {achat.code_tiers}
                 </li>
                 <li>
-                  <strong>Tiers a Saisir:</strong> {achat.tiers_saisie}
+                  <strong style={{ color: "darkgreen", fontWeight: "bold" }}>Tiers a Saisir:</strong> {achat.tiers_saisie}
                 </li>
                 <li>
-                  <strong>Type de la Pièce:</strong> {achat.type_piece}
+                  <strong style={{ color: "darkgreen", fontWeight: "bold" }}>Type de la Pièce:</strong> {achat.type_piece}
                 </li>
                 <li>
                   <strong>N° de la Pièce:</strong> {achat.num_piece}

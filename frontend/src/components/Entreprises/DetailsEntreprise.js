@@ -51,36 +51,36 @@ const DetailsEntreprise = () => {
             <div className="col-md-8">
               <div className="card">
                 <div className="card-body">
-                  <h1 className="card-title">Détails de l'Entreprise</h1>
+                  <h1 className="card-title" style={{ fontSize: "22px" }}>Détails de l'Entreprise</h1>
                   <ul className="list-arrow" style={{ fontSize: "20px" }}>
                     <li>
-                      <strong>Code Entreprise:</strong>{" "}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }}>Code Entreprise:</strong>{" "}
                       {entreprise.code_entreprise}
                     </li>
                     <li>
-                      <strong>Date de Création:</strong>{" "}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >Date de Création:</strong>{" "}
                       {entreprise.date_creation}
                     </li>
                     <li>
-                      <strong>Identité:</strong> {entreprise.identite}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >Identité:</strong> {entreprise.identite}
                     </li>
                     <li>
-                      <strong>MF/CIN:</strong> {entreprise.MF_CIN}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >MF/CIN:</strong> {entreprise.MF_CIN}
                     </li>
                     <li>
-                      <strong>Responsable:</strong> {entreprise.responsable}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >Responsable:</strong> {entreprise.responsable}
                     </li>
                     <li>
-                      <strong>CNSS:</strong> {entreprise.cnss}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >CNSS:</strong> {entreprise.cnss}
                     </li>
                     <li>
-                      <strong>Téléphone:</strong> {entreprise.tel}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >Téléphone:</strong> {entreprise.tel}
                     </li>
                     <li>
-                      <strong>Email:</strong> {entreprise.email}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >Email:</strong> {entreprise.email}
                     </li>
                     <li>
-                      <strong>Adresse:</strong> {entreprise.adresse}
+                      <strong style={{ color: "darkgreen", fontWeight: "bold" }} >Adresse:</strong> {entreprise.adresse}
                     </li>
                   </ul>
                   <div className="d-flex justify-content-center">

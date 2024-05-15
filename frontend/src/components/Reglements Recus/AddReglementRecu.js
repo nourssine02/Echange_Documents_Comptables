@@ -100,7 +100,7 @@ const AddReglementRecu = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name === "code_tiers") {
       const selectedCodeTier = codeTiers.find(
         (codeTier) => codeTier.code_tiers === value
@@ -123,7 +123,6 @@ const AddReglementRecu = () => {
       setReglement({ ...reglement, [name]: value });
     }
   };
-  
 
   const handleChangePayement = (e, index) => {
     const { name, value } = e.target;
@@ -189,6 +188,16 @@ const AddReglementRecu = () => {
     navigate("/reglements_recus");
   };
 
+  const openImageViewer = (documentUrl) => {
+    const imageWindow = window.open("", "_blank");
+    const img = document.createElement("img");
+    img.src = documentUrl;
+    img.style.width = "30%";
+    img.style.height = "100%";
+    img.style.marginLeft = "400px";
+    imageWindow.document.body.appendChild(img);
+  };
+
   return (
     <div className="main-panel">
       <div className="content-wrapper">
@@ -209,7 +218,9 @@ const AddReglementRecu = () => {
                         <label>N° Facture à régler:</label>
                         <Select
                           options={factureOptions}
-                          onChange={(value) => handleChangeFacture(value, index)}
+                          onChange={(value) =>
+                            handleChangeFacture(value, index)
+                          }
                           value={factureOptions.find(
                             (option) => option.value === facture.num_facture
                           )}
@@ -245,6 +256,7 @@ const AddReglementRecu = () => {
                             />
                           </div>
                         </div>
+
                         <div className="col-md-6">
                           <div className="form-group mb-3">
                             <label>Document / Fichier à Insérer :</label>
@@ -252,80 +264,17 @@ const AddReglementRecu = () => {
                             <button
                               type="button"
                               className="btn btn-link"
-                              data-toggle="modal"
-                              data-target=".bd-example-modal-lg"
+                              onClick={() =>
+                                openImageViewer(facture.document_fichier)
+                              }
                             >
-                              {" "}
                               View Document
                             </button>
-                            {/* Modal */}
-                            <div
-                              className="modal fade bd-example-modal-lg"
-                              tabIndex="-1"
-                              role="dialog"
-                              aria-labelledby="myLargeModalLabel"
-                              aria-hidden="true"
-                            >
-                              <div className="modal-dialog modal-lg">
-                                <div className="modal-content">
-                                  <div className="modal-header">
-                                    <h5
-                                      className="modal-title"
-                                      id="exampleModalLongTitle"
-                                    >
-                                      Facture Document
-                                    </h5>
-                                    <button
-                                      type="button"
-                                      className="close"
-                                      data-dismiss="modal"
-                                      aria-label="Close"
-                                    >
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-
-                                  <div className="modal-body">
-                                    <img
-                                      src={facture.document_fichier}
-                                      alt="Facture Document"
-                                      style={{ width: "100%" }}
-                                    />
-                                  </div>
-                                  <div className="modal-footer">
-                                    <button
-                                      type="button"
-                                      className="btn btn-outline-dark btn-icon-text"
-                                      data-dismiss="modal"
-                                    >
-                                      <i className="bi bi-close"></i>
-                                      Close
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn btn-outline-danger btn-icon-text"
-                                      onClick={() => {
-                                        const link =
-                                          document.createElement("a");
-                                        link.href = `${facture.document_fichier}`;
-                                        link.download = "document_image.jpg";
-                                        document.body.appendChild(link);
-                                        link.click();
-                                        document.body.removeChild(link);
-                                      }}
-                                    >
-                                      <i className="bi bi-download"></i>
-                                      Télécharger
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            {/* Modal */}
                           </div>
                         </div>
                       </>
                     )}
+
                     <div className="col-md-6">
                       <div className="form-group d-flex align-items-end mb-0">
                         <button

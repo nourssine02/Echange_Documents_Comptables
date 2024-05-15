@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddReglement = () => {
   const initialReglementState = {
-    date_saisie: new Date().toISOString().split("T")[0], // Default to today's date
+    date_saisie: new Date().toISOString().split("T")[0], 
     code_tiers: "",
     tiers_saisie: "",
     montant_brut: "",
@@ -181,6 +181,8 @@ const AddReglement = () => {
   const handleCancel = () => {
     navigate("/reglements_emis");
   };
+
+
 
   return (
     <div className="main-panel">

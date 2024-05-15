@@ -92,6 +92,17 @@ const UpdateAchat = () => {
     navigate("/achats");
   };
 
+
+  const openImageViewer = (documentUrl) => {
+    const imageWindow = window.open("", "_blank");
+    const img = document.createElement("img");
+    img.src = documentUrl;
+    img.style.width = "30%";
+    img.style.height = "100%";
+    img.style.marginLeft = "400px";
+    imageWindow.document.body.appendChild(img);
+  };
+
   return (
     <div className="main-panel">
       <div className="content-wrapper">
@@ -308,33 +319,19 @@ const UpdateAchat = () => {
                 </div>
                 <div className="col-md-6">
       
-                  <div className="form-group">
-                    <label htmlFor="document_fichier">
-                      Document / Fichier à Insérer :
-                    </label>
-                    <input
-                      type="file"
-                      id="document_fichier"
-                      className="form-control file-upload"
-                      name="document_fichier"
-                      onChange={handleChange}
-
-                    />
-                    {achat.document_fichier && (
-                      <div>
-                        <p>
-                          Fichier sélectionné : {achat.document_fichier.name}
-                        </p>
-                        <a
-                          href={achat.document_fichier}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Voir le fichier existant
-                        </a>
-                      </div>
-                    )}
-                  </div>
+                <div className="form-group">
+                          <label>Document / Fichier à Insérer :</label>
+                          <br />
+                          <button
+                            type="button"
+                            className="btn btn-link"
+                            onClick={() =>
+                              openImageViewer(achat.document_fichier)
+                            }
+                          >
+                            View Document
+                          </button>
+                        </div>
                 </div>
               </div>
               <div

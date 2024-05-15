@@ -13,6 +13,7 @@ const Register = () => {
     tel: "",
     email: "",
     mot_de_passe: "",
+    role: "",
   });
 
   const [errors, setErrors] = useState({
@@ -94,7 +95,7 @@ const Register = () => {
 
     try {
       await axios.post("http://localhost:5000/register", userData);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Erreur :", error);
     }
@@ -129,7 +130,7 @@ const Register = () => {
                 </h6>
                 <form className="pt-3" onSubmit={handleSubmit}>
                   <div className="form-row">
-                    <div className="col">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="text"
@@ -145,7 +146,8 @@ const Register = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col">
+
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="text"
@@ -163,7 +165,7 @@ const Register = () => {
                     </div>
                   </div>
                   <div className="form-row">
-                    <div className="col">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="text"
@@ -179,7 +181,7 @@ const Register = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="tel"
@@ -196,24 +198,45 @@ const Register = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      className="form-control form-control-lg"
-                      name="email"
-                      onChange={handleChange}
-                      placeholder="Email"
-                    />
-                    {errors.email && (
-                      <div className="error" style={{ color: "red" }}>
-                        {errors.email}
+
+                  <div className="form-row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type="email"
+                          className="form-control form-control-lg"
+                          name="email"
+                          onChange={handleChange}
+                          placeholder="Email"
+                        />
+                        {errors.email && (
+                          <div className="error" style={{ color: "red" }}>
+                            {errors.email}
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <select
+                          style={{ color: "black" }}
+                          className="form-control"
+                          name="role"
+                          onChange={handleChange}
+                        >
+                          <option value="">Sélectionnez...</option>
+                          <option value="super_admin">Super Admin</option>
+                          <option value="comptable">Comptable</option>
+                          <option value="client">Client</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="form-group">
                     <select
                       className="form-control form-control-lg"
+                      style={{ color: "black" }}
                       name="code_entreprise"
                       onChange={handleChange}
                     >
@@ -245,7 +268,7 @@ const Register = () => {
                       onChange={handleChange}
                       placeholder="Mot de Passe"
                     />
-                     {errors.mot_de_passe && (
+                    {errors.mot_de_passe && (
                       <div className="error" style={{ color: "red" }}>
                         {errors.mot_de_passe}
                       </div>

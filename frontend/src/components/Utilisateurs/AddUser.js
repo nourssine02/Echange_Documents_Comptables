@@ -11,6 +11,7 @@ const AddUser = () => {
     tel: "",
     email: "",
     mot_de_passe: "",
+    role: ""
   });
   const [entrepriseCodes, setEntrepriseCodes] = useState([]);
 
@@ -90,6 +91,7 @@ const AddUser = () => {
                       placeholder="Code Utilisateur"
                     />
                   </div>
+
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
@@ -113,7 +115,9 @@ const AddUser = () => {
                       placeholder="Position"
                     />
                   </div>
+
                 </div>
+
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Telephone :</label>
@@ -136,8 +140,26 @@ const AddUser = () => {
                       placeholder="Email"
                     />
                   </div>
+
                 </div>
+
                 <div className="col-md-6">
+                  <div className="form-group">
+                    <label>Role:</label>
+                    <select
+                      style={{ color: "black" }}
+                      className="form-control"
+                      name="role"
+                      onChange={handleChange}
+                    >
+                      <option value="">Sélectionnez...</option>
+                      <option value="super_admin">Super Admin</option>
+                      <option value="comptable">Comptable</option>
+                      <option value="client">Client</option>
+
+                    </select>
+                  </div>
+
                   <div className="form-group">
                     <label>Mot de Passe :</label>
                     <input
