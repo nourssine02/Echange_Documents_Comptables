@@ -1,0 +1,14 @@
+.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transition for margin and width */
+  width: calc(100% - 0px); /* Default width with sidebar partially visible */
+  min-height: 100vh; /* Ensure the panel takes full height */
+  overflow: auto; /* Handle overflow content */
+}
+
+
+
+.content-wrapper {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+
+}

@@ -1,0 +1,10 @@
+/* Home.css */
+.main-panel {
+  transition: margin-left 0.3s;
+}
+.main-panel.shifted {
+  margin-left: 250px; /* Adjust according to your sidebar width */
+}
+.content-wrapper {
+  padding: 20px;
+}

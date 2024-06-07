@@ -1,0 +1,58 @@
+/*.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; 
+  width: calc(100% - 0px); 
+  min-height: 100vh; 
+  overflow: auto; 
+}
+
+
+
+.content-wrapper.not {
+  background-color: antiquewhite;
+}
+
+.content-wrapper.shifted {
+  background-color: aquamarine;
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+}*/
+
+/*****************************/
+
+/* .content-wrapper.shifted {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+} */
+
+
+
+
+/******************************************/
+
+
+.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transition for margin and width */
+  width: 100%; /* Default width */
+  min-height: 100vh; /* Ensure the panel takes full height */
+  overflow: auto; /* Handle overflow content */
+}
+
+.main-panel.shifted {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+}
+
+/* Home.css */
+.content-wrapper {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.content-wrapper.not {
+  background-color: antiquewhite;
+}
+
+.content-wrapper.shifted {
+  background-color: aquamarine;
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+}

@@ -1,0 +1,17 @@
+.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; 
+  width: calc(100% - 0px); 
+  min-height: 100vh; 
+  overflow: auto; 
+}
+
+.content-wrapper.shifted {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+  background-color: rgb(187, 51, 51);
+}
+
+.content-wrapper{
+  background-color: rgb(240, 240, 240);
+
+}

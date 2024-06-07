@@ -1,0 +1,16 @@
+.sidebar {
+    /* Styles de base pour la barre latérale */
+    width: 250px; /* Largeur de la barre latérale */
+    position: fixed;
+    top: 0;
+    left: -250px; /* La barre latérale est initialement cachée */
+    height: 100%;
+    background-color: #fff; /* Couleur de fond de la barre latérale */
+    transition: all 0.3s ease; /* Animation de transition */
+  }
+  
+  .sidebar.active {
+    left: 0; /* Afficher la barre latérale lorsque .active est appliqué */
+  }
+  
+  

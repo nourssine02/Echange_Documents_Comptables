@@ -1,0 +1,16 @@
+.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transition for margin and width */
+  width: calc(100% - 20px); /* Default width with sidebar partially visible */
+  min-height: 100vh; /* Ensure the panel takes full height */
+  overflow: auto; /* Handle overflow content */
+}
+
+.main-panel.shifted {
+  margin-left: 250px; /* Adjust according to your sidebar width */
+  width: calc(100% - 250px); /* Adjust width when sidebar is fully open */
+}
+
+.content-wrapper {
+  padding: 100px;
+  box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
+}

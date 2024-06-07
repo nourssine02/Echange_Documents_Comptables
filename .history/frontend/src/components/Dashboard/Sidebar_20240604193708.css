@@ -1,0 +1,12 @@
+.sidebar {
+  width: 250px; /* Full width when open */
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.closed {
+  transform: translateX(-200px); /* Partially hide the sidebar */
+}

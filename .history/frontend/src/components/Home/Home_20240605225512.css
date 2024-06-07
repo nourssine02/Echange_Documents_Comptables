@@ -1,0 +1,25 @@
+.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; 
+  width: calc(100% - 0px); 
+  min-height: 100vh; 
+  overflow: auto; 
+}
+
+/* 
+.content-wrapper {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+
+} */
+
+
+.content-wrapper.not {
+  background-color: aquamarine;
+}
+
+.shifted{
+  background-color: antiquewhite;
+}
+
+
+

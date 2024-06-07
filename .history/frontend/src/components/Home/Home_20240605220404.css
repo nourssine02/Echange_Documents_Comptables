@@ -1,0 +1,109 @@
+/*.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; 
+  width: calc(100% - 0px); 
+  min-height: 100vh; 
+  overflow: auto; 
+}
+
+
+
+.content-wrapper.not {
+  background-color: antiquewhite;
+}
+
+.content-wrapper.shifted {
+  background-color: aquamarine;
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+}*/
+
+/*****************************/
+
+/* .content-wrapper.shifted {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+} */
+
+
+
+
+/******************************************/
+
+
+
+/* App.css */
+.app {
+  display: flex;
+}
+
+.main-panel {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transition for margin and width */
+  width: 100%; /* Default width */
+  min-height: 100vh; /* Ensure the panel takes full height */
+  overflow: auto; /* Handle overflow content */
+}
+
+.main-panel.shifted {
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+}
+
+/* Sidebar.css */
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #fff; /* Fond sombre */
+  transition: all 0.3s;
+  transform: translateX(-100%);
+  overflow-y: scroll; /* Permettre le défilement */
+}
+
+/* Masquer la barre de défilement */
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* Styles de la liste de navigation */
+.nav {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  padding: 10px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  display: block; /* Masquer les icônes */
+}
+
+/* Home.css */
+.content-wrapper {
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.content-wrapper.not {
+  background-color: antiquewhite;
+}
+
+.content-wrapper.shifted {
+  background-color: aquamarine;
+  margin-left: 250px; 
+  width: calc(100% - 250px);
+}

@@ -1,0 +1,7 @@
+.main-panel {
+  transition: margin-left 0.3s ease;
+}
+
+.main-panel.shifted {
+  margin-left: 250px; 
+}
