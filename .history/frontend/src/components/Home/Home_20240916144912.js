@@ -12,7 +12,6 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
-
 import { Bar } from 'react-chartjs-2';
 
 // Register the required Chart.js components
@@ -21,14 +20,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 function Home({ isSidebarOpen }) {
   const [error, setError] = useState("");
   const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalOrders: 0,
-    totalDeliveries: 0,
-    unpaidInvoices: 0,
+    totalRevenue: 0,
+    productsSold: 0,
+    activeCustomers: 0,
+    pendingOrders: 0,
   });
   
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -55,7 +54,13 @@ function Home({ isSidebarOpen }) {
     const fetchStatistics = async () => {
       try {
         const response = await axios.get("http://localhost:5000/statistics");
-        setStats(response.data);
+        // Mise à jour des nouvelles statistiques avec un autre contexte
+        setStats({
+          totalRevenue: response.data.totalRevenue,
+          productsSold: response.data.productsSold,
+          activeCustomers: response.data.activeCustomers,
+          pendingOrders: response.data.pendingOrders,
+        });
       } catch (error) {
         console.error("Error fetching statistics", error);
         setError("Une erreur est survenue lors de la récupération des statistiques.");
@@ -66,18 +71,17 @@ function Home({ isSidebarOpen }) {
     fetchStatistics();
   }, [setUser, navigate, setError]);
 
-  // Data for Bar Chart
+  // Data for Bar Chart (nouveau contexte)
   const barChartData = {
-    labels: ["Utilisateurs", "Commandes", "Livraisons", "Factures Non Payées"],
+    labels: ["Revenu Total", "Produits Vendus", "Clients Actifs", "Commandes en Attente"],
     datasets: [
       {
         label: "Statistiques",
-        data: [stats.totalUsers, stats.totalOrders, stats.totalDeliveries, stats.unpaidInvoices],
+        data: [stats.totalRevenue, stats.productsSold, stats.activeCustomers, stats.pendingOrders],
         backgroundColor: ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"],
       },
     ],
   };
-
 
   return (
     <div className="main-panel">
@@ -90,42 +94,38 @@ function Home({ isSidebarOpen }) {
                 <br />
                 {error && <p style={{ color: "red" }}>{error}</p>}
 
-                {user.role !== "utilisateur" && (
                 <div className="row text-center">
                   <div className="col-md-3">
                     <div className="stat-card">
-                      <h4>Total Utilisateurs</h4>
-                      <p>{stats.totalUsers}</p>
+                      <h4>Revenu Total</h4>
+                      <p>{stats.totalRevenue} €</p>
                     </div>
                   </div>
                   <div className="col-md-3">
                     <div className="stat-card">
-                      <h4>Total Commandes</h4>
-                      <p>{stats.totalOrders}</p>
+                      <h4>Produits Vendus</h4>
+                      <p>{stats.productsSold}</p>
                     </div>
                   </div>
                   <div className="col-md-3">
                     <div className="stat-card">
-                      <h4>Total Livraisons</h4>
-                      <p>{stats.totalDeliveries}</p>
+                      <h4>Clients Actifs</h4>
+                      <p>{stats.activeCustomers}</p>
                     </div>
                   </div>
                   <div className="col-md-3">
                     <div className="stat-card">
-                      <h4>Factures Non Payées</h4>
-                      <p>{stats.unpaidInvoices}</p>
+                      <h4>Commandes en Attente</h4>
+                      <p>{stats.pendingOrders}</p>
                     </div>
                   </div>
                 </div>
-                )}
-
 
                 {/* Bar Chart for Stats */}
                 <div className="mt-5">
                   <h3 className="text-center">Graphique des Statistiques</h3>
                   <Bar data={barChartData} options={{ responsive: true, plugins: { legend: { display: true }}}} />
                 </div>
-               
                 
               </div>
             </div>

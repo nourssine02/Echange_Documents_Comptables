@@ -1,22 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react"; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../Connexion/UserProvider";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-
-import { Bar } from 'react-chartjs-2';
-
-// Register the required Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 function Home({ isSidebarOpen }) {
   const [error, setError] = useState("");
@@ -28,7 +13,7 @@ function Home({ isSidebarOpen }) {
   });
   
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -66,19 +51,6 @@ function Home({ isSidebarOpen }) {
     fetchStatistics();
   }, [setUser, navigate, setError]);
 
-  // Data for Bar Chart
-  const barChartData = {
-    labels: ["Utilisateurs", "Commandes", "Livraisons", "Factures Non Payées"],
-    datasets: [
-      {
-        label: "Statistiques",
-        data: [stats.totalUsers, stats.totalOrders, stats.totalDeliveries, stats.unpaidInvoices],
-        backgroundColor: ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"],
-      },
-    ],
-  };
-
-
   return (
     <div className="main-panel">
       <div className={`content-wrapper ${isSidebarOpen ? "shifted" : ""}`}>
@@ -86,11 +58,10 @@ function Home({ isSidebarOpen }) {
           <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h2 className="text-center mb-5">Dashboard</h2>
-                <br />
+                <h2 className="text-center">Home</h2>
+                <br /> <br /> <br />
                 {error && <p style={{ color: "red" }}>{error}</p>}
-
-                {user.role !== "utilisateur" && (
+                
                 <div className="row text-center">
                   <div className="col-md-3">
                     <div className="stat-card">
@@ -117,17 +88,27 @@ function Home({ isSidebarOpen }) {
                     </div>
                   </div>
                 </div>
-                )}
-
-
-                {/* Bar Chart for Stats */}
-                <div className="mt-5">
-                  <h3 className="text-center">Graphique des Statistiques</h3>
-                  <Bar data={barChartData} options={{ responsive: true, plugins: { legend: { display: true }}}} />
-                </div>
-               
                 
               </div>
+              
+              <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                  <h4 class="card-title">Line chart</h4>
+                  <canvas id="lineChart" width="538" height="269" style="display: block; width: 538px; height: 269px;" class="chartjs-render-monitor"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                  <h4 class="card-title">Bar chart</h4>
+                  <canvas id="barChart" width="538" height="269" style="display: block; width: 538px; height: 269px;" class="chartjs-render-monitor"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
             </div>
           </div>
         </div>

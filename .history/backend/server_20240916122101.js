@@ -4690,33 +4690,27 @@ app.get("/factures-non-payees", (req, res) => {
 app.get("/statistics", (req, res) => {
   const stats = {};
 
-  db.query(`SELECT COUNT(*) as totalUsers FROM utilisateurs`, (err, totalUsers) => {
-    if (err) return res.status(500).json({ error: "Error fetching total users" });
+  const queries = [
+    `SELECT COUNT(*) as totalUsers FROM utilisateurs`,
+    `SELECT COUNT(*) as totalOrders FROM commandes`,
+    `SELECT COUNT(*) as totalDeliveries FROM commandes WHERE date_livraison_prevue IS NOT NULL`,
+    `SELECT COUNT(*) as unpaidInvoices FROM facturations WHERE etat_payement = 0`,
+  ];
 
-    stats.totalUsers = totalUsers[0].totalUsers;
+  Promise.all(queries.map(query => db.promise().query(query)))
+    .then(results => {
+      stats.totalUsers = results[0][0][0].totalUsers;
+      stats.totalOrders = results[1][0][0].totalOrders;
+      stats.totalDeliveries = results[2][0][0].totalDeliveries;
+      stats.unpaidInvoices = results[3][0][0].unpaidInvoices;
 
-    db.query(`SELECT COUNT(*) as totalOrders FROM commandes`, (err, totalOrders) => {
-      if (err) return res.status(500).json({ error: "Error fetching total orders" });
-
-      stats.totalOrders = totalOrders[0].totalOrders;
-
-      db.query(`SELECT COUNT(*) as totalDeliveries FROM commandes WHERE date_livraison_prevue IS NOT NULL`, (err, totalDeliveries) => {
-        if (err) return res.status(500).json({ error: "Error fetching total deliveries" });
-
-        stats.totalDeliveries = totalDeliveries[0].totalDeliveries;
-
-        db.query(`SELECT COUNT(*) as unpaidInvoices FROM facturations WHERE etat_payement = 0`, (err, unpaidInvoices) => {
-          if (err) return res.status(500).json({ error: "Error fetching unpaid invoices" });
-
-          stats.unpaidInvoices = unpaidInvoices[0].unpaidInvoices;
-
-          res.json(stats);
-        });
-      });
+      res.json(stats);
+    })
+    .catch(err => {
+      console.error("Error fetching statistics:", err);
+      res.status(500).send({ error: "An error occurred while fetching statistics." });
     });
-  });
 });
-
 
 
 /***************************************************************** */

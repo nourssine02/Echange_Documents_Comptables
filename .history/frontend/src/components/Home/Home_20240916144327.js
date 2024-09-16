@@ -28,7 +28,7 @@ function Home({ isSidebarOpen }) {
   });
   
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -90,7 +90,6 @@ function Home({ isSidebarOpen }) {
                 <br />
                 {error && <p style={{ color: "red" }}>{error}</p>}
 
-                {user.role !== "utilisateur" && (
                 <div className="row text-center">
                   <div className="col-md-3">
                     <div className="stat-card">
@@ -117,8 +116,6 @@ function Home({ isSidebarOpen }) {
                     </div>
                   </div>
                 </div>
-                )}
-
 
                 {/* Bar Chart for Stats */}
                 <div className="mt-5">

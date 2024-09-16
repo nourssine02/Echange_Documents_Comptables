@@ -13,7 +13,7 @@ import {
   ArcElement,
 } from 'chart.js';
 
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 
 // Register the required Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -28,7 +28,7 @@ function Home({ isSidebarOpen }) {
   });
   
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -78,6 +78,16 @@ function Home({ isSidebarOpen }) {
     ],
   };
 
+  // Data for Pie Chart
+  const pieChartData = {
+    labels: ["Utilisateurs", "Commandes", "Livraisons", "Factures Non Payées"],
+    datasets: [
+      {
+        data: [stats.totalUsers, stats.totalOrders, stats.totalDeliveries, stats.unpaidInvoices],
+        backgroundColor: ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"],
+      },
+    ],
+  };
 
   return (
     <div className="main-panel">
@@ -86,11 +96,10 @@ function Home({ isSidebarOpen }) {
           <div className="col-lg-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h2 className="text-center mb-5">Dashboard</h2>
+                <h2 className="text-center">Home</h2>
                 <br />
                 {error && <p style={{ color: "red" }}>{error}</p>}
 
-                {user.role !== "utilisateur" && (
                 <div className="row text-center">
                   <div className="col-md-3">
                     <div className="stat-card">
@@ -117,15 +126,18 @@ function Home({ isSidebarOpen }) {
                     </div>
                   </div>
                 </div>
-                )}
-
 
                 {/* Bar Chart for Stats */}
                 <div className="mt-5">
                   <h3 className="text-center">Graphique des Statistiques</h3>
                   <Bar data={barChartData} options={{ responsive: true, plugins: { legend: { display: true }}}} />
                 </div>
-               
+
+                {/* Pie Chart for Stats */}
+                <div className="mt-">
+                  <h3 className="text-center">Répartition des Statistiques</h3>
+                  <Pie data={pieChartData} options={{ responsive: true, plugins: { legend: { position: "bottom" }}}} />
+                </div>
                 
               </div>
             </div>
