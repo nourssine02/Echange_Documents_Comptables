@@ -72,8 +72,7 @@ const UpdateFacture = ({isSidebarOpen}) => {
 
     if (type === "checkbox") {
       setFacture((prev) => ({ ...prev, [name]: checked }));
-    }
-     else if (name === "document_fichier" && e.target.files.length > 0) {
+    } else if (name === "document_fichier" && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
         const base64Data = reader.result.split(",")[1];

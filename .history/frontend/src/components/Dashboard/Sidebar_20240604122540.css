@@ -1,8 +1,0 @@
-.sidebar {
-  /* Styles de base pour la barre latérale */
-}
-
-.sidebar.minimized {
-  width: 60px; /* Largeur minimisée de la barre latérale */
-  /* Ajoutez d'autres styles pour masquer ou réduire davantage la barre latérale */
-}
