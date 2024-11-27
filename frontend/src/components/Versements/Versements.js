@@ -205,20 +205,25 @@ const Versements = ({isSidebarOpen}) => {
                               </button>
                             </Link>
                             &nbsp; &nbsp;
-                            <Link to={`/updateVersement/${versement.id}`}>
-                              <button type="button" className="btn btn-success">
-                                Modifier
-                              </button>
-                            </Link>
-                            &nbsp; &nbsp;
 
-                            <button
-                        type="button"
-                        className="btn btn-danger mr-2"
-                        onClick={() => confirmDelete(versement.id)}
-                      >
-                        Supprimer
-                      </button>
+                            {user.role === "utilisateur" && (
+                              <>
+                                <Link to={`/updateVersement/${versement.id}`}>
+                                  <button type="button" className="btn btn-success">
+                                    Modifier
+                                  </button>
+                                </Link>
+                                &nbsp; &nbsp;
+
+                                <button
+                                  type="button"
+                                  className="btn btn-danger mr-2"
+                                  onClick={() => confirmDelete(versement.id)}
+                                >
+                                  Supprimer
+                                </button>
+                              </>
+                            )}
                           </td>
                         </tr>
                       ))}

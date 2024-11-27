@@ -14,9 +14,6 @@ const xlsx = require("xlsx");
 
 const app = express();
 
-// Configurer Express pour servir les fichiers statiques de React
-app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.use(
   cors({
@@ -40,10 +37,12 @@ function handleDisconnect() {
     user: "root",
     password: "",
     database: "cloud",
+    port : 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
   });
+
 
   db.connect(function (err) {
     if (err) {
@@ -125,7 +124,7 @@ app.post("/refresh-token", (req, res) => {
       { id: decoded.id, identite: decoded.identite, role: decoded.role },
       secretKey,
       {
-        expiresIn: 86400, // 24 hours
+        expiresIn: '8760h', // Expire in 365 days (8760 hours)
       }
     );
 
@@ -138,7 +137,7 @@ app.get("/home", verifyToken, (req, res) => {
   res.json({ message: "Bienvenue sur la page d'accueil", user: req.user });
 });
 
-/*************************** notifications ********************************* */
+/****************re*********** notifications ********************************* */
 
 // Route pour récupérer les notifications d'un utilisateur
 app.get("/notifications/:userId", (req, res) => {
@@ -244,7 +243,7 @@ app.post("/forgot-password", (req, res) => {
         subject: "Password Reset",
         text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
           Please click on the following link, or paste this into your browser to complete the process:\n\n
-          http://localhost:3000/reset-password/${token}\n\n
+          http://localhost:80/reset-password/${token}\n\n
           If you did not request this, please ignore this email and your password will remain unchanged.\n`,
       };
 
@@ -400,7 +399,7 @@ app.post("/login", (req, res) => {
             position: results[0].position,
           },
           secretKey,
-          { expiresIn: "7d" }
+          { expiresIn: "8760h" }
         );
         const user = {
           id: results[0].id,
@@ -4749,15 +4748,12 @@ app.get("/statistics", (req, res) => {
 });
 
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 
 /***************************************************************** */
 
 // Démarrage du serveur
 const PORT = 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Le serveur est en écoute sur le port ${PORT}`);
 });

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-const UpdateDocDirection = ({isSidebarOpen}) => {
+const UpdateDocDirection = ({ isSidebarOpen }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -20,19 +20,23 @@ const UpdateDocDirection = ({isSidebarOpen}) => {
     const fetchDocument = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/documents_direction/${id}`
+            `http://localhost:5000/documents_direction/${id}`
         );
         const document = res.data;
+
+        // Format date to 'yyyy-MM-dd'
+        const formattedDate = document.date ? document.date.split("T")[0] : "";
+
         setForm({
-          date: document.date,
-          nature: document.nature,
-          designation: document.designation,
-          destinataire: document.destinataire,
-          document_fichier: document.document_fichier,
-          priorite: document.priorite,
-          observations: document.observations,
+          date: formattedDate || "",
+          nature: document.nature || "",
+          designation: document.designation || "",
+          destinataire: document.destinataire || "",
+          document_fichier: document.document_fichier || "",
+          priorite: document.priorite || "",
+          observations: document.observations || "",
         });
-        setImageUrl(document.document_fichier);
+        setImageUrl(document.document_fichier || "");
       } catch (error) {
         console.error("Error fetching document:", error);
       }
@@ -43,7 +47,7 @@ const UpdateDocDirection = ({isSidebarOpen}) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm({ ...form, [name]: value || "" });
   };
 
   const handleFileChange = (e) => {
@@ -63,8 +67,8 @@ const UpdateDocDirection = ({isSidebarOpen}) => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:5000/documents_direction/${id}`,
-        form
+          `http://localhost:5000/documents_direction/${id}`,
+          form
       );
       alert("Données modifiées avec succès.");
       navigate("/documents_direction");
@@ -77,13 +81,12 @@ const UpdateDocDirection = ({isSidebarOpen}) => {
   const handleCancel = () => {
     navigate("/documents_direction");
   };
-
   return (
     <div className="main-panel">
       <div className={`content-wrapper ${isSidebarOpen ? 'shifted' : ''}`}>
       <div className="card">
           <div className="card-body">
-            <h1 className="title text-center">Modifier Document Pour la Direction</h1>
+            <h2 className="title text-center">Modifier document pour la direction</h2>
             <br />
             <form className="forms-sample" onSubmit={updateDocument}>
               <div className="row">
@@ -91,11 +94,9 @@ const UpdateDocDirection = ({isSidebarOpen}) => {
                   <div className="form-group">
                     <label htmlFor="date">Date de la periode:</label>
                     <input
-                      id="date"
                       name="date"
-                      placeholder="Date"
                       type="date"
-                      value={form.date}
+                      value={form.date || ""}
                       onChange={handleChange}
                       className="form-control"
                     />

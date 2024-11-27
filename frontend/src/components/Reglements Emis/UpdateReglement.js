@@ -534,7 +534,7 @@ const UpdateReglement = ({ isSidebarOpen }) => {
       <div className={`content-wrapper ${isSidebarOpen ? "shifted" : ""}`}>
         <div className="card">
           <div className="card-body">
-            <h2 className="text-center">Ajouter un règlement Émis</h2>
+            <h2 className="text-center">Modifier un règlement émis</h2>
             <br />
             <form onSubmit={handleSubmit} className="forms-sample">
               <div className="row">

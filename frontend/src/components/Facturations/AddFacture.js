@@ -320,7 +320,7 @@ const AddFacture = ({ isSidebarOpen }) => {
       <div className={`content-wrapper ${isSidebarOpen ? "shifted" : ""}`}>
         <div className="card">
           <div className="card-body">
-            <h1 className="text-center">Ajouter une Facture</h1>
+            <h1 className="text-center">Ajouter une facture</h1>
             <br />
             <form
               className="forms-sample"
@@ -556,7 +556,7 @@ const AddFacture = ({ isSidebarOpen }) => {
     className="btn btn-link"
     onClick={handleAzureFormRecognizer} // Analyse avec Azure Form Recognizer
   >
-    Analyser Facture avec Azure
+    Analyser Facture avec IA
   </button>
 </div>
 

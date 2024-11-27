@@ -54,7 +54,7 @@ const CommandesParCodeClient = ({isSidebarOpen}) => {
                 <br />
                 {commandes.length > 0 ? (
                   <div className="table-responsive">
-                    <table className="table table-sm table-hover">
+                    <table className="table table-hover">
                       <thead>
                         <tr>
                           <th>Date de la commande</th>

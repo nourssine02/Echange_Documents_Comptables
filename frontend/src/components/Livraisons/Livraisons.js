@@ -176,11 +176,13 @@ const Livraisons = ({isSidebarOpen}) => {
                               </button>
                             </Link>
                             &nbsp; &nbsp;
-                            <Link to={`/updateLivraison/${livraison.id}`}>
-                              <button type="button" className="btn btn-success">
-                                Modifier
-                              </button>
-                            </Link>
+                            {user.role === "utilisateur" && (
+                                <Link to={`/updateLivraison/${livraison.id}`} >
+                                  <button type="button" className="btn btn-success">
+                                    Modifier
+                                  </button>
+                                </Link>
+                             )}
                           </td>
                         </tr>
                       ))}

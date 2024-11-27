@@ -179,11 +179,13 @@ const ReglementsRecus = ({isSidebarOpen}) => {
                               </button>
                             </Link>
                             &nbsp; &nbsp;
-                            <Link to={`/updateReglementRecu/${reglement.id}`}>
-                              <button type="button" className="btn btn-success">
-                                Modifier
-                              </button>
-                            </Link>
+                            {user.role === "utilisateur" && (
+                                <Link to={`/updateReglementRecu/${reglement.id}`}>
+                                  <button type="button" className="btn btn-success">
+                                    Modifier
+                                  </button>
+                                </Link>
+                            )}
                           </td>
                         </tr>
                       ))}

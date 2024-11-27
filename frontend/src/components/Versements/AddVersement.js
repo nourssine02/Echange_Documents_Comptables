@@ -180,7 +180,7 @@ const AddVersement = ({ isSidebarOpen }) => {
       <div className={`content-wrapper ${isSidebarOpen ? "shifted" : ""}`}>
         <div className="card">
           <div className="card-body">
-            <h1 className="text-center">Ajouter un Versement</h1>
+            <h2 className="text-center">Ajouter un versement</h2>
             <br />
             <form onSubmit={handleSubmit} className="forms-sample">
               <div className="row">

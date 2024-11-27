@@ -179,11 +179,13 @@ const Commandes = ({isSidebarOpen}) => {
                               </button>
                             </Link>
                             &nbsp; &nbsp;
-                            <Link to={`/updateCommande/${commande.id}`}>
+                            {user.role === "utilisateur" && (
+                                <Link to={`/updateCommande/${commande.id}`}>
                               <button type="button" className="btn btn-success">
                                 Modifier
                               </button>
                             </Link>
+                                )}
                           </td>
                         </tr>
                       ))}

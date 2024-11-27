@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0604a05f-a99a-434c-9b43-c8cd84286832" name="EC2 Instance" url="https://comptaonline.line.pm/">
+        <fileTransfer rootFolder="/var/www/myapp" accessType="SFTP" host="18.208.89.42" port="22" sshConfigId="0f11de51-40f4-4072-b875-ad6b84a33c4c" sshConfig="ec2-user@18.208.89.42:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Nettoyer le cache npm et installer les dépendances avec options
-RUN npm cache clean --force && npm install --legacy-peer-deps
+RUN npm install
 
 # Copier le reste des fichiers de l'application dans le répertoire de travail
 COPY . .
@@ -16,17 +16,14 @@ COPY . .
 # Construire l'application pour la production
 RUN npm run build
 
-# Étape 2: Utiliser une image Nginx pour servir les fichiers construits
+# Utiliser Nginx pour servir les fichiers statiques
 FROM nginx:alpine
 
-# Copier les fichiers construits dans le répertoire de Nginx
+# Copier les fichiers de build dans le répertoire Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Exposer le port 80 pour que Nginx puisse servir l'application
+# Exposer le port 80 pour le serveur Nginx
 EXPOSE 80
 
-# Démarrer Nginx en mode avant
+# Démarrer Nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-# Pour tester :
-# http://192.168.1.21:8080/
