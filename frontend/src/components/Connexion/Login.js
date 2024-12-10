@@ -52,7 +52,7 @@ const Login = () => {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className="form-control rounded form-control-lg"
                     value={identite}
                     placeholder="Identité"
                     onChange={(e) => setIdentite(e.target.value)}
@@ -61,13 +61,12 @@ const Login = () => {
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className="form-control rounded form-control-lg"
                     value={mot_de_passe}
                     placeholder="Mot de Passe"
                     onChange={(e) => setMot_de_passe(e.target.value)}
                   />
                 </div>
-                <br />
                 {message && (
                   <div className={`message ${messageType === "success" ? "text-success" : "text-danger"}`}>
                     {message}
