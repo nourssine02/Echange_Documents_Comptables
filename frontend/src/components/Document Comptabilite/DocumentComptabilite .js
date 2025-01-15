@@ -20,7 +20,7 @@ const DocumentComptabilite = ({isSidebarOpen}) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/clients");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +37,7 @@ const DocumentComptabilite = ({isSidebarOpen}) => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/documents_comptabilite", {
+        const res = await axios.get("https://comptaonline.alwaysdata.net/documents_comptabilite", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

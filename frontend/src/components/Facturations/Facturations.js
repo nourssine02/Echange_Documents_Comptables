@@ -21,7 +21,7 @@ const Facturations = ({ isSidebarOpen }) => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/facturations", {
+        const res = await axios.get("https://comptaonline.alwaysdata.net/facturations", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ const Facturations = ({ isSidebarOpen }) => {
 
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/clients");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -52,7 +52,7 @@ const Facturations = ({ isSidebarOpen }) => {
   const handlePaymentStatusChange = async (id, currentStatus) => {
     try {
       const newStatus = !currentStatus;
-      await axios.put(`http://localhost:5000/facture/${id}/etat_payement`, {
+      await axios.put(`https://comptaonline.alwaysdata.net/facture/${id}/etat_payement`, {
         etat_payement: newStatus,
       });
       setFactures((prevFactures) =>

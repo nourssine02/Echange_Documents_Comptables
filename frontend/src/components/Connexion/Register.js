@@ -105,7 +105,7 @@ const Register = () => {
         try {
             console.log("Tentative d'envoi de la requête POST à l'API...");
     
-            const response = await axios.post("http://localhost:5000/register", userData);
+            const response = await axios.post("https://comptaonline.alwaysdata.net/register", userData);
             
             console.log("Réponse du serveur:", response.data);
     
@@ -126,7 +126,7 @@ const Register = () => {
   useEffect(() => {
     const fetchEntrepriseCodes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_entreprises");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/code_entreprises");
         setEntrepriseCodes(res.data);
       } catch (err) {
         console.log(err);
@@ -138,7 +138,7 @@ const Register = () => {
   useEffect(() => {
     const fetchComptableCodes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/comptables");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/comptables");
         setComptableCodes(res.data);
       } catch (err) {
         console.log(err);

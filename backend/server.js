@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const crypto = require("crypto");
 const xlsx = require("xlsx");
+require('dotenv').config();
 
 const app = express();
 
@@ -23,14 +24,13 @@ app.use(fileUpload());
 app.use(cookieParser());
 
 
-let db;
 
 function handleDisconnect() {
-    db = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "cloud",
+    const db = mysql.createConnection({
+        host: process.env.DB_HOST, // Hôte MySQL
+        user: process.env.DB_USER, // Utilisateur MySQL
+        password: process.env.DB_PASSWORD, // Mot de passe MySQL
+        database: process.env.DB_NAME, // Nom de la base de données
         port : 3306,
         waitForConnections: true,
         connectionLimit: 10,
@@ -58,6 +58,7 @@ function handleDisconnect() {
 }
 
 handleDisconnect();
+
 
 // Define routes
 app.get("/", (req, res) => {
@@ -348,8 +349,8 @@ const sendVerificationEmail = async (email, verificationCode) => {
         },
         to: email,
         subject: "Verify Your Email Address",
-        text: `Please click on the following link to verify your email address: http://localhost:5000/verify-email/${verificationCode}`,
-        html: `<p>Please click on the following link to verify your email address: <a href="http://localhost:5000/verify-email/${verificationCode}">Verify Email Address</a></p>`,
+        text: `Please click on the following link to verify your email address: https://comptaonline.alwaysdata.net/verify-email/${verificationCode}`,
+        html: `<p>Please click on the following link to verify your email address: <a href="https://comptaonline.alwaysdata.net/verify-email/${verificationCode}">Verify Email Address</a></p>`,
     });
 
     console.log("Email sent: %s", info.messageId);

@@ -23,7 +23,7 @@ const UpdateLivraison = ({ isSidebarOpen }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/livraison/${id}`)
+      .get(`https://comptaonline.alwaysdata.net/livraison/${id}`)
       .then((res) => {
         const data = res.data[0];
         setLivraison({
@@ -63,7 +63,7 @@ const UpdateLivraison = ({ isSidebarOpen }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/livraison/${id}`, livraison);
+      await axios.put(`https://comptaonline.alwaysdata.net/livraison/${id}`, livraison);
       Swal.fire({
         icon: "success",
         title: "Succès",
@@ -85,7 +85,7 @@ const UpdateLivraison = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchCodeTiers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_tiers");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/code_tiers");
         setCodeTiers(res.data);
       } catch (err) {
         console.log(err);
@@ -102,7 +102,7 @@ const UpdateLivraison = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchRefCommande = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/reference_commande");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/reference_commande");
         setRefCommandes(res.data);
       } catch (err) {
         console.log(err);

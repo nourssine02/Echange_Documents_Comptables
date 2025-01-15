@@ -36,7 +36,7 @@ const DetailsCommande = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/commande/${id}`
+          `https://comptaonline.alwaysdata.net/commande/${id}`
         );
         const { data } = response;
         setCommande(data.commande);
@@ -96,7 +96,7 @@ const DetailsCommande = ({ isSidebarOpen }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/commande/${id}`);
+      await axios.delete(`https://comptaonline.alwaysdata.net/commande/${id}`);
       toast.success("Commande supprimée avec succès !");
       navigate("/commandes"); // Navigate back after deletion
     } catch (err) {

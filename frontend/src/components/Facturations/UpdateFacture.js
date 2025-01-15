@@ -36,7 +36,7 @@ const UpdateFacture = ({isSidebarOpen}) => {
   useEffect(() => {
     const fetchFacture = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/facture/${id}`);
+        const res = await axios.get(`https://comptaonline.alwaysdata.net/facture/${id}`);
         const { data } = res;
 
         setFacture({
@@ -56,7 +56,7 @@ const UpdateFacture = ({isSidebarOpen}) => {
   useEffect(() => {
     const fetchCodeTiers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_tiers");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/code_tiers");
         setCodeTiers(res.data);
       } catch (err) {
         console.log(err);
@@ -69,7 +69,7 @@ const UpdateFacture = ({isSidebarOpen}) => {
     const fetchRefLivraisons = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/reference_livraison"
+          "https://comptaonline.alwaysdata.net/reference_livraison"
         );
         setRefLivraisons(res.data);
       } catch (err) {
@@ -108,7 +108,7 @@ const UpdateFacture = ({isSidebarOpen}) => {
     const data = { facture };
 
     axios
-      .put(`http://localhost:5000/facture/${id}`, data)
+      .put(`https://comptaonline.alwaysdata.net/facture/${id}`, data)
       .then((response) => {
         console.log(response.data.message);
         alert("Données modifiées avec succès.");

@@ -37,7 +37,7 @@ export const UserProvider = ({ children }) => {
           return;
         }
 
-        const response = await axios.get("http://localhost:5000/home", {
+        const response = await axios.get("https://comptaonline.alwaysdata.net/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

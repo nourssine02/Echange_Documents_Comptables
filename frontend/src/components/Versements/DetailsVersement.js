@@ -29,7 +29,7 @@ const DetailsVersement = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/versement/${id}`
+          `https://comptaonline.alwaysdata.net/versement/${id}`
         );
         const { data } = response;
         setVersement(

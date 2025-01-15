@@ -9,7 +9,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/notifications/${user.id}`);
+        const res = await axios.get(`https://comptaonline.alwaysdata.net/notifications/${user.id}`);
         setNotifications(res.data);
       } catch (err) {
         console.error("Error fetching notifications:", err);

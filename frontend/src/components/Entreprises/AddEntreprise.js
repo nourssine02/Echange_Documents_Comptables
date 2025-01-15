@@ -107,7 +107,7 @@ const AddEntreprise = ({ isSidebarOpen }) => {
 
     if (Object.values(inputValidity).every((valid) => valid)) {
       try {
-        await axios.post("http://localhost:5000/entreprises", entreprise);        
+        await axios.post("https://comptaonline.alwaysdata.net/entreprises", entreprise);        
         Swal.fire({
           icon: "success",
           title: "Succès",

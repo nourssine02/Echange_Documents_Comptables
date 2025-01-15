@@ -14,7 +14,7 @@ const EtatDeFacturation = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/clients");
+        const response = await axios.get("https://comptaonline.alwaysdata.net/clients");
         setClients(response.data);
       } catch (error) {
         console.error("Error fetching clients", error);
@@ -38,7 +38,7 @@ const EtatDeFacturation = ({ isSidebarOpen }) => {
     }
 
     try {
-      const response = await axios.get("http://localhost:5000/etat-de-facturation", {
+      const response = await axios.get("https://comptaonline.alwaysdata.net/etat-de-facturation", {
         params: { startDate, endDate, company: selectedClient },
       });
       setTotalCA(response.data[0]?.totalCA || 0);

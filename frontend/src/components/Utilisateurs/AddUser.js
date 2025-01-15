@@ -110,7 +110,7 @@ const AddUser = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchEntrepriseCodes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_entreprises");
+        const res = await axios.get("https://comptaonline.alwaysdata.net/code_entreprises");
         setEntrepriseCodes(res.data);
         console.log(res.data);
       } catch (err) {
@@ -129,7 +129,7 @@ const AddUser = ({ isSidebarOpen }) => {
     // Check if all inputs are valid
     if (Object.values(inputValidity).every((valid) => valid)) {
       try {
-        await axios.post("http://localhost:5000/users", user);
+        await axios.post("https://comptaonline.alwaysdata.net/users", user);
         Swal.fire({
           icon: "success",
           title: "Succès",

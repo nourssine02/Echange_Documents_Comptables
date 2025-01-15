@@ -24,7 +24,7 @@ const UpdateEntreprise = ({ isSidebarOpen }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/entreprises/${id}`, entreprise);
+      await axios.put(`https://comptaonline.alwaysdata.net/entreprises/${id}`, entreprise);
       Swal.fire({
         icon: "success",
         title: "Succès",
@@ -44,7 +44,7 @@ const UpdateEntreprise = ({ isSidebarOpen }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/entreprises/${id}`)
+      .get(`https://comptaonline.alwaysdata.net/entreprises/${id}`)
       .then((res) => {
         const data = res.data[0];
         setEntreprise({

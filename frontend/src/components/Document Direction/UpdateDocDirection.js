@@ -20,7 +20,7 @@ const UpdateDocDirection = ({ isSidebarOpen }) => {
     const fetchDocument = async () => {
       try {
         const res = await axios.get(
-            `http://localhost:5000/documents_direction/${id}`
+            `https://comptaonline.alwaysdata.net/documents_direction/${id}`
         );
         const document = res.data;
 
@@ -67,7 +67,7 @@ const UpdateDocDirection = ({ isSidebarOpen }) => {
     e.preventDefault();
     try {
       await axios.put(
-          `http://localhost:5000/documents_direction/${id}`,
+          `https://comptaonline.alwaysdata.net/documents_direction/${id}`,
           form
       );
       alert("Données modifiées avec succès.");
