@@ -21,13 +21,13 @@ const Entreprises = ({ isSidebarOpen }) => {
       try {
         let res;
         if (user.role === "comptable" || user.role === "super_admin") {
-          res = await axios.get("https://comptaonline.alwaysdata.net/entreprises", {
+          res = await axios.get("http://localhost:5000/entreprises", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
         } else {
-          res = await axios.get("https://comptaonline.alwaysdata.net/entreprises/user", {
+          res = await axios.get("http://localhost:5000/entreprises/user", {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },

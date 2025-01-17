@@ -21,7 +21,7 @@ const ReglementsEmis = ({ isSidebarOpen }) => {
       }
     const fetchReglements = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/reglements_emis", {
+        const res = await axios.get("http://localhost:5000/reglements_emis", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +41,7 @@ const ReglementsEmis = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
+        const res = await axios.get("http://localhost:5000/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);

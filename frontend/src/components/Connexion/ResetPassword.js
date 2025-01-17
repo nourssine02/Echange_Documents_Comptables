@@ -9,7 +9,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://comptaonline.alwaysdata.net/reset-password", {
+      await axios.post("http://localhost:5000/reset-password", {
         token,
         password,
       });

@@ -20,7 +20,7 @@ const Tiers = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
+        const res = await axios.get("http://localhost:5000/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -40,7 +40,7 @@ const Tiers = ({ isSidebarOpen }) => {
         return;
       }
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/tiers", {
+        const res = await axios.get("http://localhost:5000/tiers", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,7 +66,7 @@ const Tiers = ({ isSidebarOpen }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://comptaonline.alwaysdata.net/tiers/${id}`);
+      await axios.delete(`http://localhost:5000/tiers/${id}`);
       setTiers(tiers.filter((tier) => tier.id !== id));
       toast.success("Tier supprimé avec succès");
     } catch (err) {
@@ -138,7 +138,7 @@ const Tiers = ({ isSidebarOpen }) => {
       setBanksVisible({ ...banksVisible, [tierId]: false });
     } else {
       try {
-        const res = await axios.get(`https://comptaonline.alwaysdata.net/tiers/${tierId}/banques`);
+        const res = await axios.get(`http://localhost:5000/tiers/${tierId}/banques`);
         setBanksVisible({
           ...banksVisible,
           [tierId]: res.data, // Store the banks data

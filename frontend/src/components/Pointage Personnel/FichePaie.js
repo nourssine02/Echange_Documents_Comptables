@@ -22,7 +22,7 @@ const FichePaie = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
+        const res = await axios.get("http://localhost:5000/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -40,7 +40,7 @@ const FichePaie = ({ isSidebarOpen }) => {
         return;
       }
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/pointage", {
+        const res = await axios.get("http://localhost:5000/pointage", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -88,7 +88,7 @@ const FichePaie = ({ isSidebarOpen }) => {
    // Handle deletion of selected fiches
    const handleDeleteSelected = async () => {
     try {
-      await axios.delete("https://comptaonline.alwaysdata.net/pointage", {
+      await axios.delete("http://localhost:5000/pointage", {
         data: { ids: selectedFiches }, // Send selected IDs to be deleted
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

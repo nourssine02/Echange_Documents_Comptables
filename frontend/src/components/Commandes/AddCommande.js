@@ -40,7 +40,7 @@ const AddCommande = ({ isSidebarOpen }) => {
     useEffect(() => {
         const fetchCodeTiers = async () => {
             try {
-                const res = await axios.get("https://comptaonline.alwaysdata.net/code_tiers", {
+                const res = await axios.get("http://localhost:5000/code_tiers", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`, // Exemple de gestion de token
                     },
@@ -56,7 +56,7 @@ const AddCommande = ({ isSidebarOpen }) => {
     useEffect(() => {
         const fetchFamilles = async () => {
             try {
-                const res = await axios.get("https://comptaonline.alwaysdata.net/familles");
+                const res = await axios.get("http://localhost:5000/familles");
                 const options = res.data.map((famille) => ({
                     value: famille,
                     label: famille,
@@ -129,7 +129,7 @@ const AddCommande = ({ isSidebarOpen }) => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                await axios.post("https://comptaonline.alwaysdata.net/commande", { commande, familles },
+                await axios.post("http://localhost:5000/commande", { commande, familles },
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`, // Assurez-vous que le jeton est correctement lu
@@ -146,7 +146,7 @@ const AddCommande = ({ isSidebarOpen }) => {
                         message: notificationMessage,
                     };
 
-                    await axios.post("https://comptaonline.alwaysdata.net/notifications", notificationData);
+                    await axios.post("http://localhost:5000/notifications", notificationData);
                 }
                 Swal.fire({
                     icon: "success",

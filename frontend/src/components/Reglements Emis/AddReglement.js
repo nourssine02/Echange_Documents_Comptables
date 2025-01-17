@@ -119,13 +119,13 @@ const AddReglement = ({ isSidebarOpen }) => {
         const token = localStorage.getItem("token");
         const [tiersResponse, tauxResponse, piecesResponse] = await Promise.all(
           [
-            axios.get("https://comptaonline.alwaysdata.net/code_tiers", {
+            axios.get("http://localhost:5000/code_tiers", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("https://comptaonline.alwaysdata.net/taux_retenue_source/active", {
+            axios.get("http://localhost:5000/taux_retenue_source/active", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("https://comptaonline.alwaysdata.net/pieces", {
+            axios.get("http://localhost:5000/pieces", {
               headers: { Authorization: `Bearer ${token}` },
             }),
           ]
@@ -152,7 +152,7 @@ const AddReglement = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `https://comptaonline.alwaysdata.net/tiers/${tierId}/banques`,
+        `http://localhost:5000/tiers/${tierId}/banques`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setBanques(response.data);
@@ -305,7 +305,7 @@ const AddReglement = ({ isSidebarOpen }) => {
 
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "https://comptaonline.alwaysdata.net/reglements_emis",
+        "http://localhost:5000/reglements_emis",
         formData,
         {
           headers: {
@@ -327,7 +327,7 @@ const AddReglement = ({ isSidebarOpen }) => {
         };
 
         await axios.post(
-          "https://comptaonline.alwaysdata.net/notifications",
+          "http://localhost:5000/notifications",
           notificationData
         );
       }

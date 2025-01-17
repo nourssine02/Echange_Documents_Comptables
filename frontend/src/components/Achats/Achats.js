@@ -18,7 +18,7 @@ const Achats = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
+        const res = await axios.get("http://localhost:5000/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +37,7 @@ const Achats = ({ isSidebarOpen }) => {
       }
 
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/achats", {
+        const res = await axios.get("http://localhost:5000/achats", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

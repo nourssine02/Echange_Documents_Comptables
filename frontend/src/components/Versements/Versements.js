@@ -23,7 +23,7 @@ const Versements = ({isSidebarOpen}) => {
         return;
       }
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/versements", {
+        const res = await axios.get("http://localhost:5000/versements", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const Versements = ({isSidebarOpen}) => {
 
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
+        const res = await axios.get("http://localhost:5000/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -99,7 +99,7 @@ const Versements = ({isSidebarOpen}) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://comptaonline.alwaysdata.net/versement/${id}`);
+      await axios.delete(`http://localhost:5000/versement/${id}`);
       window.location.reload(); 
     } catch (err) {
       console.error("Error deleting versement:", err);

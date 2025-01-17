@@ -22,7 +22,7 @@ const Livraisons = ({isSidebarOpen}) => {
         return;
       }
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/livraisons", {
+        const res = await axios.get("http://localhost:5000/livraisons", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const Livraisons = ({isSidebarOpen}) => {
 
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/clients");
+        const res = await axios.get("http://localhost:5000/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);

@@ -221,7 +221,7 @@ const AddFacture = ({ isSidebarOpen }) => {
       try {
         // Envoi de la facture
         const token = localStorage.getItem("token");
-        const response = await axios.post("https://comptaonline.alwaysdata.net/facture", formData, {
+        const response = await axios.post("http://localhost:5000/facture", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
@@ -243,7 +243,7 @@ const AddFacture = ({ isSidebarOpen }) => {
           };
   
           // Envoi de la notification
-          await axios.post("https://comptaonline.alwaysdata.net/notifications", notificationData);
+          await axios.post("http://localhost:5000/notifications", notificationData);
         }
   
         // Afficher le message de succès
@@ -280,7 +280,7 @@ const AddFacture = ({ isSidebarOpen }) => {
     const fetchCodeTiers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("https://comptaonline.alwaysdata.net/code_tiers", {
+        const res = await axios.get("http://localhost:5000/code_tiers", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -298,7 +298,7 @@ const AddFacture = ({ isSidebarOpen }) => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "https://comptaonline.alwaysdata.net/reference_livraison", {
+          "http://localhost:5000/reference_livraison", {
             headers: {
               Authorization: `Bearer ${token}`
             }

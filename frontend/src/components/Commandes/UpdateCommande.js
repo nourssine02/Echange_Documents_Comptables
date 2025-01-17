@@ -40,7 +40,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://comptaonline.alwaysdata.net/commande/${id}`);
+        const response = await axios.get(`http://localhost:5000/commande/${id}`);
         const { data } = response;
         // Correction : Assurer que les dates sont bien formatées
         setCommande({
@@ -73,7 +73,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchCodeTiers = async () => {
       try {
-        const res = await axios.get("https://comptaonline.alwaysdata.net/code_tiers");
+        const res = await axios.get("http://localhost:5000/code_tiers");
         setCodeTiers(res.data);
       } catch (err) {
         console.log(err);
@@ -126,7 +126,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
   const removeFamille = async (index, familleId) => {
     try {
       if (familleId) {
-        await axios.delete(`https://comptaonline.alwaysdata.net/familles/${familleId}`);
+        await axios.delete(`http://localhost:5000/familles/${familleId}`);
       }
       const updatedFamilles = familles.filter((_, i) => i !== index);
       setFamilles(updatedFamilles);
@@ -147,7 +147,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
         commande_id: id,
       }));
 
-      await axios.put(`https://comptaonline.alwaysdata.net/commande/${id}`, {
+      await axios.put(`http://localhost:5000/commande/${id}`, {
         commande,
         familles: formattedFamilles,
       });

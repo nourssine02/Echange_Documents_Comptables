@@ -49,7 +49,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `https://comptaonline.alwaysdata.net/tiers/${tierId}/banques`,
+        `http://localhost:5000/tiers/${tierId}/banques`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setBanques(response.data);
@@ -74,7 +74,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "https://comptaonline.alwaysdata.net/reglements_recus",
+        "http://localhost:5000/reglements_recus",
         data, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -94,7 +94,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
           message: notificationMessage,
         };
   
-        await axios.post("https://comptaonline.alwaysdata.net/notifications", notificationData);
+        await axios.post("http://localhost:5000/notifications", notificationData);
       }
       Swal.fire({
         icon: "success",
@@ -121,7 +121,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     const fetchCodeTiers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("https://comptaonline.alwaysdata.net/code_tiers", {
+        const res = await axios.get("http://localhost:5000/code_tiers", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCodeTiers(res.data);
@@ -136,7 +136,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     const fetchFactures = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("https://comptaonline.alwaysdata.net/num_facture", {
+        const res = await axios.get("http://localhost:5000/num_facture", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const options = res.data.map((num_facture) => ({
@@ -193,7 +193,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `https://comptaonline.alwaysdata.net/factures/${facture.value}`
+        `http://localhost:5000/factures/${facture.value}`
         , {
           headers: { Authorization: `Bearer ${token}` },
         });

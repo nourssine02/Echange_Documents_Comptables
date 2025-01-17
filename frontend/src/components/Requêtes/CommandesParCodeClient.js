@@ -14,7 +14,7 @@ const CommandesParCodeClient = ({isSidebarOpen}) => {
     }
 
     try {
-      const response = await axios.get('https://comptaonline.alwaysdata.net/commandes-par-code-client', {
+      const response = await axios.get('http://localhost:5000/commandes-par-code-client', {
         params: { code_entreprise: codeEntreprise },
       });
       setCommandes(response.data);

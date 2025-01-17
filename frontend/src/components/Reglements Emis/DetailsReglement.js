@@ -44,7 +44,7 @@ const DetailsReglement = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://comptaonline.alwaysdata.net/reglements_emis/${id}`
+          `http://localhost:5000/reglements_emis/${id}`
         );
         const { data } = response;
         setReglement(data.reglement);
@@ -105,7 +105,7 @@ const DetailsReglement = ({ isSidebarOpen }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("https://comptaonline.alwaysdata.net/reglements_emis/" + id);
+      await axios.delete("http://localhost:5000/reglements_emis/" + id);
       toast.success("Règlement supprimé avec succès");
       navigate("/reglements_emis");
     } catch (err) {

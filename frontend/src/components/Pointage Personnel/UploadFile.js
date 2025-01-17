@@ -81,7 +81,7 @@ const handleUpload = async () => {
 
   try {
     const token = localStorage.getItem("token");
-    await axios.post("https://comptaonline.alwaysdata.net/pointage", formData, {
+    await axios.post("http://localhost:5000/pointage", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}` 
@@ -97,7 +97,7 @@ const handleUpload = async () => {
       };
 
       await axios.post(
-        "https://comptaonline.alwaysdata.net/notifications",
+        "http://localhost:5000/notifications",
         notificationData
       );
     }

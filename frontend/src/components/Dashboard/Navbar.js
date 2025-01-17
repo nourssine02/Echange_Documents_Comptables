@@ -42,7 +42,7 @@ const Navbar = ({ toggleSidebar }) => {
       if (user) {
         try {
           const res = await axios.get(
-              `https://comptaonline.alwaysdata.net/notifications/${user.id}`
+              `http://localhost:5000/notifications/${user.id}`
           );
           const newNotifications = res.data;
           setNotifications(newNotifications);
@@ -89,7 +89,7 @@ const Navbar = ({ toggleSidebar }) => {
 
   const markNotificationsAsRead = async () => {
     try {
-      await axios.post(`https://comptaonline.alwaysdata.net/notifications/markAsRead`, {
+      await axios.post(`http://localhost:5000/notifications/markAsRead`, {
         userId: user.id,
       });
       setUnreadNotifications([]);
@@ -101,7 +101,7 @@ const Navbar = ({ toggleSidebar }) => {
   const removeNotification = async (notificationId) => {
     try {
       await axios.delete(
-          `https://comptaonline.alwaysdata.net/notifications/${notificationId}`
+          `http://localhost:5000/notifications/${notificationId}`
       );
       setNotifications(notifications.filter((n) => n.id !== notificationId));
       setUnreadNotifications(

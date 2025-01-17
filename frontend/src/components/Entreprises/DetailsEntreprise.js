@@ -21,7 +21,7 @@ const DetailsEntreprise = ({ isSidebarOpen }) => {
 
   useEffect(() => {
     axios
-      .get("https://comptaonline.alwaysdata.net/entreprises/" + id)
+      .get("http://localhost:5000/entreprises/" + id)
       .then((res) => {
         const data = res.data[0];
         setEntreprise({

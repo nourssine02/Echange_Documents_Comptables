@@ -19,7 +19,7 @@ function SelectionClient({ setShowModal }) {
           return;
         }
 
-        const response = await axios.get("https://comptaonline.alwaysdata.net/home", {
+        const response = await axios.get("http://localhost:5000/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ function SelectionClient({ setShowModal }) {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get(`https://comptaonline.alwaysdata.net/clients`);
+        const res = await axios.get(`http://localhost:5000/clients`);
         setClients(res.data);
       } catch (err) {
         console.error("Error fetching clients:", err);

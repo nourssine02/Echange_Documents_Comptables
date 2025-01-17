@@ -25,7 +25,7 @@ const DocumentDirection = ({ isSidebarOpen }) => {
       }
       try {
         const res = await axios.get(
-          "https://comptaonline.alwaysdata.net/documents_direction",
+          "http://localhost:5000/documents_direction",
           {
             headers: {
               Authorization: `Bearer ${token}`,
