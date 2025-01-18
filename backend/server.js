@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const crypto = require("crypto");
 const xlsx = require("xlsx");
+require('dotenv').config();
 
 const app = express();
 
@@ -30,6 +31,8 @@ function handleDisconnect() {
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
+        port: process.env.DB_PORT
+
     });
 
 
