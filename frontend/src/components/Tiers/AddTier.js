@@ -34,7 +34,7 @@ const AddTier = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const axiosInstance = axiosWithAuth();
-        const response = await axiosInstance.get("http://localhost:5000/banques/active");
+        const response = await axiosInstance.get("https://echange-documents-comptables-backend.vercel.app/banques/active");
 
         // Formatage des résultats pour Select
         const formattedBanques = response.data.map((banque) => ({
@@ -198,7 +198,7 @@ const AddTier = ({ isSidebarOpen }) => {
             message: notificationMessage,
           };
     
-          await axiosInstance.post("http://localhost:5000/notifications", notificationData);
+          await axiosInstance.post("https://echange-documents-comptables-backend.vercel.app/notifications", notificationData);
         } 
   
         // Afficher une notification de succès

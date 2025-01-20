@@ -41,7 +41,7 @@ const AddAchat = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/code_tiers", {
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -58,7 +58,7 @@ const AddAchat = ({ isSidebarOpen }) => {
   // Fonction pour vérifier si le numéro de pièce existe
   const checkNumPieceExists = async (numPiece) => {
     try {
-      const response = await axios.get(`http://localhost:5000/check-num-piece/${numPiece}`);
+      const response = await axios.get(`https://echange-documents-comptables-backend.vercel.app/check-num-piece/${numPiece}`);
       
       if (response.data.exists) {
         // Si le numéro de pièce existe, afficher une alerte
@@ -197,7 +197,7 @@ const AddAchat = ({ isSidebarOpen }) => {
       let postData = { ...achat };
 
       // Envoyer les données de l'achat
-      await axiosInstance.post("http://localhost:5000/achats", postData);
+      await axiosInstance.post("https://echange-documents-comptables-backend.vercel.app/achats", postData);
 
       if (user.role === "comptable") {
         // Ajouter une notification
@@ -209,7 +209,7 @@ const AddAchat = ({ isSidebarOpen }) => {
         };
 
         await axiosInstance.post(
-          "http://localhost:5000/notifications",
+          "https://echange-documents-comptables-backend.vercel.app/notifications",
           notificationData
         );
       }

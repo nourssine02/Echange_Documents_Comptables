@@ -21,7 +21,7 @@ const DetailsEntreprise = ({ isSidebarOpen }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/entreprises/" + id)
+      .get("https://echange-documents-comptables-backend.vercel.app/entreprises/" + id)
       .then((res) => {
         const data = res.data[0];
         setEntreprise({

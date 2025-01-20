@@ -40,7 +40,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/commande/${id}`);
+        const response = await axios.get(`https://echange-documents-comptables-backend.vercel.app/commande/${id}`);
         const { data } = response;
         // Correction : Assurer que les dates sont bien formatées
         setCommande({
@@ -73,7 +73,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchCodeTiers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_tiers");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers");
         setCodeTiers(res.data);
       } catch (err) {
         console.log(err);
@@ -126,7 +126,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
   const removeFamille = async (index, familleId) => {
     try {
       if (familleId) {
-        await axios.delete(`http://localhost:5000/familles/${familleId}`);
+        await axios.delete(`https://echange-documents-comptables-backend.vercel.app/familles/${familleId}`);
       }
       const updatedFamilles = familles.filter((_, i) => i !== index);
       setFamilles(updatedFamilles);
@@ -147,7 +147,7 @@ const UpdateCommande = ({ isSidebarOpen }) => {
         commande_id: id,
       }));
 
-      await axios.put(`http://localhost:5000/commande/${id}`, {
+      await axios.put(`https://echange-documents-comptables-backend.vercel.app/commande/${id}`, {
         commande,
         familles: formattedFamilles,
       });

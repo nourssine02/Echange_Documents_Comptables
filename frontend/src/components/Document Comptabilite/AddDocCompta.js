@@ -36,7 +36,7 @@ const AddDocCompta = ({isSidebarOpen}) => {
 
   const createDocument = async () => {
     try {
-      await axios.post("http://localhost:5000/documents_comptabilite", form);
+      await axios.post("https://echange-documents-comptables-backend.vercel.app/documents_comptabilite", form);
       console.log(form);
         // Notification si l'utilisateur est un comptable
         if (user.role === "comptable") {
@@ -47,7 +47,7 @@ const AddDocCompta = ({isSidebarOpen}) => {
             message: notificationMessage,
           };
     
-          axios.post("http://localhost:5000/notifications", notificationData);
+          axios.post("https://echange-documents-comptables-backend.vercel.app/notifications", notificationData);
         }
     
           Swal.fire({

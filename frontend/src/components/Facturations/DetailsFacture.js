@@ -29,7 +29,7 @@ const DetailsFacture = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchFactureDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/facture/${id}`);
+        const response = await axios.get(`https://echange-documents-comptables-backend.vercel.app/facture/${id}`);
         const { data } = response;
         setFacture(data.facture);
       } catch (error) {

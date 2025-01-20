@@ -22,7 +22,7 @@ const Livraisons = ({isSidebarOpen}) => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/livraisons", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/livraisons", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const Livraisons = ({isSidebarOpen}) => {
 
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/clients");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);

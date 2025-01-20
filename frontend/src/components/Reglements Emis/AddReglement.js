@@ -119,13 +119,13 @@ const AddReglement = ({ isSidebarOpen }) => {
         const token = localStorage.getItem("token");
         const [tiersResponse, tauxResponse, piecesResponse] = await Promise.all(
           [
-            axios.get("http://localhost:5000/code_tiers", {
+            axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("http://localhost:5000/taux_retenue_source/active", {
+            axios.get("https://echange-documents-comptables-backend.vercel.app/taux_retenue_source/active", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("http://localhost:5000/pieces", {
+            axios.get("https://echange-documents-comptables-backend.vercel.app/pieces", {
               headers: { Authorization: `Bearer ${token}` },
             }),
           ]
@@ -152,7 +152,7 @@ const AddReglement = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/tiers/${tierId}/banques`,
+        `https://echange-documents-comptables-backend.vercel.app/tiers/${tierId}/banques`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setBanques(response.data);
@@ -305,7 +305,7 @@ const AddReglement = ({ isSidebarOpen }) => {
 
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/reglements_emis",
+        "https://echange-documents-comptables-backend.vercel.app/reglements_emis",
         formData,
         {
           headers: {
@@ -327,7 +327,7 @@ const AddReglement = ({ isSidebarOpen }) => {
         };
 
         await axios.post(
-          "http://localhost:5000/notifications",
+          "https://echange-documents-comptables-backend.vercel.app/notifications",
           notificationData
         );
       }

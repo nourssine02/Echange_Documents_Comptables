@@ -7,7 +7,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/forgot-password", { email });
+      await axios.post("https://echange-documents-comptables-backend.vercel.app/forgot-password", { email });
       alert("Password reset link sent to your email.");
     } catch (error) {
       alert("Error sending reset link.");

@@ -49,7 +49,7 @@ const UpdateReglementRecu = ({isSidebarOpen}) => {
       if (!id) return; // Vérifiez si `id` est défini
   
       try {
-        const response = await axios.get(`http://localhost:5000/reglements_recus/${id}`);
+        const response = await axios.get(`https://echange-documents-comptables-backend.vercel.app/reglements_recus/${id}`);
         const { data } = response;
   
         if (data) {
@@ -100,7 +100,7 @@ const UpdateReglementRecu = ({isSidebarOpen}) => {
     const fetchCodeTiers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/code_tiers", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCodeTiers(res.data);
@@ -114,7 +114,7 @@ const UpdateReglementRecu = ({isSidebarOpen}) => {
   useEffect(() => {
     const fetchFactures = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/num_facture");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/num_facture");
         const options = res.data.map((num_facture) => ({
           value: num_facture,
           label: num_facture,
@@ -133,7 +133,7 @@ const UpdateReglementRecu = ({isSidebarOpen}) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/tiers/${tierId}/banques`,
+        `https://echange-documents-comptables-backend.vercel.app/tiers/${tierId}/banques`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setBanques(response.data);
@@ -202,7 +202,7 @@ const UpdateReglementRecu = ({isSidebarOpen}) => {
   const handleChangeFacture = async (facture, index) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/factures/${facture.value}`
+        `https://echange-documents-comptables-backend.vercel.app/factures/${facture.value}`
       );
       const { id, date_facture, montant_total_facture, document_fichier } =
         res.data;
@@ -240,7 +240,7 @@ const UpdateReglementRecu = ({isSidebarOpen}) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/reglements_recus/${id}`,
+        `https://echange-documents-comptables-backend.vercel.app/reglements_recus/${id}`,
         data
       );
       console.log(response.data.message);

@@ -19,7 +19,7 @@ function SelectionClient({ setShowModal }) {
           return;
         }
 
-        const response = await axios.get("http://localhost:5000/home", {
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ function SelectionClient({ setShowModal }) {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/clients`);
+        const res = await axios.get(`https://echange-documents-comptables-backend.vercel.app/clients`);
         setClients(res.data);
       } catch (err) {
         console.error("Error fetching clients:", err);

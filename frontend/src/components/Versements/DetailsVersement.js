@@ -29,7 +29,7 @@ const DetailsVersement = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/versement/${id}`
+          `https://echange-documents-comptables-backend.vercel.app/versement/${id}`
         );
         const { data } = response;
         setVersement(

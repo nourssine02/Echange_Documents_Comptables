@@ -25,7 +25,7 @@ const DocumentDirection = ({ isSidebarOpen }) => {
       }
       try {
         const res = await axios.get(
-          "http://localhost:5000/documents_direction",
+          "https://echange-documents-comptables-backend.vercel.app/documents_direction",
           {
             headers: {
               Authorization: `Bearer ${token}`,

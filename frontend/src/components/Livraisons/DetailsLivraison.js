@@ -25,7 +25,7 @@ const DetailsLivraison = ({ isSidebarOpen }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/livraison/${id}`)
+      .get(`https://echange-documents-comptables-backend.vercel.app/livraison/${id}`)
       .then((res) => {
         const data = res.data[0];
         setLivraison({
@@ -88,7 +88,7 @@ const DetailsLivraison = ({ isSidebarOpen }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/livraison/${id}`);
+      await axios.delete(`https://echange-documents-comptables-backend.vercel.app/livraison/${id}`);
       toast.success("Livraison supprimée avec succès !");
       navigate("/livraisons"); // Navigate back after deletion
     } catch (err) {

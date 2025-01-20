@@ -39,7 +39,7 @@ const AddVersement = ({ isSidebarOpen }) => {
     const fetchCodeTiers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/code_tiers", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCodeTiers(res.data);
@@ -54,7 +54,7 @@ const AddVersement = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/tiers/${tierId}/banques`,
+        `https://echange-documents-comptables-backend.vercel.app/tiers/${tierId}/banques`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setBanques(response.data);
@@ -69,7 +69,7 @@ const AddVersement = ({ isSidebarOpen }) => {
     const token = localStorage.getItem("token");
 
     axios
-      .post("http://localhost:5000/versement", data, {
+      .post("https://echange-documents-comptables-backend.vercel.app/versement", data, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -88,7 +88,7 @@ const AddVersement = ({ isSidebarOpen }) => {
           message: notificationMessage,
         };
   
-        axios.post("http://localhost:5000/notifications", notificationData);
+        axios.post("https://echange-documents-comptables-backend.vercel.app/notifications", notificationData);
       }
   
         Swal.fire({

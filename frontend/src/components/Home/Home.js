@@ -38,7 +38,7 @@ function Home({ isSidebarOpen }) {
           return;
         }
 
-        const response = await axios.get("http://localhost:5000/home", {
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,7 +52,7 @@ function Home({ isSidebarOpen }) {
 
     const fetchStatistics = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/statistics");
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/statistics");
         setStats(response.data);
       } catch (error) {
         console.error("Error fetching statistics", error);
@@ -62,7 +62,7 @@ function Home({ isSidebarOpen }) {
     const fetchOrdersPerPeriod = async () => {
       try {
         if (user && user.role === "utilisateur") { // Vérifie si l'utilisateur a le rôle "utilisateur"
-          const response = await axios.get("http://localhost:5000/orders-per-period");
+          const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/orders-per-period");
 
           // Validation : vérifier si ordersPerPeriod est bien un tableau
           if (response.data && Array.isArray(response.data.ordersPerPeriod)) {

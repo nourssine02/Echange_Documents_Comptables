@@ -49,7 +49,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/tiers/${tierId}/banques`,
+        `https://echange-documents-comptables-backend.vercel.app/tiers/${tierId}/banques`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setBanques(response.data);
@@ -74,7 +74,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/reglements_recus",
+        "https://echange-documents-comptables-backend.vercel.app/reglements_recus",
         data, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -94,7 +94,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
           message: notificationMessage,
         };
   
-        await axios.post("http://localhost:5000/notifications", notificationData);
+        await axios.post("https://echange-documents-comptables-backend.vercel.app/notifications", notificationData);
       }
       Swal.fire({
         icon: "success",
@@ -121,7 +121,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     const fetchCodeTiers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/code_tiers", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCodeTiers(res.data);
@@ -136,7 +136,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     const fetchFactures = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/num_facture", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/num_facture", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const options = res.data.map((num_facture) => ({
@@ -193,7 +193,7 @@ const AddReglementRecu = ({ isSidebarOpen }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://localhost:5000/factures/${facture.value}`
+        `https://echange-documents-comptables-backend.vercel.app/factures/${facture.value}`
         , {
           headers: { Authorization: `Bearer ${token}` },
         });

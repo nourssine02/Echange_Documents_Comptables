@@ -14,7 +14,7 @@ const TotalCommandesParPeriode = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/clients");
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/clients");
         setClients(response.data);
       } catch (error) {
         console.error("Error fetching clients", error);
@@ -28,7 +28,7 @@ const TotalCommandesParPeriode = ({ isSidebarOpen }) => {
   // Fetch total orders by period and company
   const fetchTotal = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/total-commandes-par-periode", {
+      const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/total-commandes-par-periode", {
         params: { startDate, endDate, company: selectedClient },
       });
       if (response.data.length > 0 && response.data[0].total !== null) {

@@ -13,7 +13,7 @@ const ListeClientsParPeriodeCreation = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchClientsList = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/clients");
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/clients");
         setClientsList(response.data);
       } catch (error) {
         console.error("Error fetching clients list", error);
@@ -27,7 +27,7 @@ const ListeClientsParPeriodeCreation = ({ isSidebarOpen }) => {
   const fetchClients = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/liste-clients-par-periode-creation",
+        "https://echange-documents-comptables-backend.vercel.app/liste-clients-par-periode-creation",
         {
           params: { dateCreation, company: selectedClient },
         }

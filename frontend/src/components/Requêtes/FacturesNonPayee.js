@@ -13,7 +13,7 @@ const FacturesNonPayee = ({isSidebarOpen}) => {
     // Fetch the unpaid invoices and companies when the component mounts or the selected company changes
     const fetchFacturesNonPayees = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/factures-non-payees", {
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/factures-non-payees", {
           params: { company: selectedCompany || undefined },
         });
         setFactures(response.data);
@@ -27,7 +27,7 @@ const FacturesNonPayee = ({isSidebarOpen}) => {
 
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/clients"); // Assuming there's an endpoint to fetch companies
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/clients"); // Assuming there's an endpoint to fetch companies
         setCompanies(response.data);
       } catch (err) {
         console.error("Error fetching companies:", err);

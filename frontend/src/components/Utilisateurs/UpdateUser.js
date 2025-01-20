@@ -26,7 +26,7 @@ const UpdateUser = ({ isSidebarOpen }) => {
       return;
     }
     try {
-      await axios.put(`http://localhost:5000/users/${id}`, user);
+      await axios.put(`https://echange-documents-comptables-backend.vercel.app/users/${id}`, user);
       Swal.fire({
         icon: "success",
         title: "Succès",
@@ -46,7 +46,7 @@ const UpdateUser = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchEntrepriseCodes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_entreprises");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_entreprises");
         setEntrepriseCodes(res.data);
       } catch (err) {
         console.log(err);
@@ -61,7 +61,7 @@ const UpdateUser = ({ isSidebarOpen }) => {
       return;
     }
     axios
-      .get(`http://localhost:5000/users/${id}`)
+      .get(`https://echange-documents-comptables-backend.vercel.app/users/${id}`)
       .then((res) => {
         const data = res.data;
         setUser({

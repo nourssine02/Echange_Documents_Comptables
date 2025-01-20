@@ -83,7 +83,7 @@ const Profile = ({ isSidebarOpen }) => {
     }
   
     axios
-      .put(`http://localhost:5000/users/${user.id}`, updatedData)
+      .put(`https://echange-documents-comptables-backend.vercel.app/users/${user.id}`, updatedData)
       .then((res) => {
         if (res.data) {
           setUser(res.data); // Met à jour le contexte utilisateur

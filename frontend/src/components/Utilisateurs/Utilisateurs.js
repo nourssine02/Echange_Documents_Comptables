@@ -20,7 +20,7 @@ const Utilisateurs = ({ isSidebarOpen }) => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/utilisateurs", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/utilisateurs", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +35,7 @@ const Utilisateurs = ({ isSidebarOpen }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:5000/users/" + id);
+      await axios.delete("https://echange-documents-comptables-backend.vercel.app/users/" + id);
       window.location.reload();
     } catch (err) {
       console.log(err);
@@ -84,7 +84,7 @@ const Utilisateurs = ({ isSidebarOpen }) => {
   const handleToggleStatus = async (userId, currentStatus) => {
     try {
       const updatedStatus = !currentStatus;
-      await axios.put(`http://localhost:5000/users/${userId}/status`, {
+      await axios.put(`https://echange-documents-comptables-backend.vercel.app/users/${userId}/status`, {
         isActive: updatedStatus,
       });
       setUsers((prevUsers) =>

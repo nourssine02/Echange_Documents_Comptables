@@ -24,7 +24,7 @@ const ReglementsRecus = ({isSidebarOpen}) => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/reglements_recus", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/reglements_recus", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +41,7 @@ const ReglementsRecus = ({isSidebarOpen}) => {
 
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/clients");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);

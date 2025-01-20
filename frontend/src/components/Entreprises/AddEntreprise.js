@@ -107,7 +107,7 @@ const AddEntreprise = ({ isSidebarOpen }) => {
 
     if (Object.values(inputValidity).every((valid) => valid)) {
       try {
-        await axios.post("http://localhost:5000/entreprises", entreprise);        
+        await axios.post("https://echange-documents-comptables-backend.vercel.app/entreprises", entreprise);        
         Swal.fire({
           icon: "success",
           title: "Succès",

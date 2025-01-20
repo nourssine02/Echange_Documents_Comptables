@@ -347,8 +347,8 @@ const sendVerificationEmail = async (email, verificationCode) => {
         },
         to: email,
         subject: "Verify Your Email Address",
-        text: `Please click on the following link to verify your email address: http://localhost:5000/verify-email/${verificationCode}`,
-        html: `<p>Please click on the following link to verify your email address: <a href="http://localhost:5000/verify-email/${verificationCode}">Verify Email Address</a></p>`,
+        text: `Please click on the following link to verify your email address: https://echange-documents-comptables-backend.vercel.app/verify-email/${verificationCode}`,
+        html: `<p>Please click on the following link to verify your email address: <a href="https://echange-documents-comptables-backend.vercel.app/verify-email/${verificationCode}">Verify Email Address</a></p>`,
     });
 
     console.log("Email sent: %s", info.messageId);

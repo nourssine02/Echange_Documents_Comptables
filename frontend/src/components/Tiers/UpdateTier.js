@@ -60,7 +60,7 @@ const UpdateTier = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/banques/active");
+        const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/banques/active");
 
         // Formatage des résultats pour Select
         const formattedBanques = response.data.map((banque) => ({
@@ -161,7 +161,7 @@ const UpdateTier = ({ isSidebarOpen }) => {
       banques: tier.banques.map(banque => banque.value) // Ensure the `banques` field contains the IDs
     };
   
-    axios.put(`http://localhost:5000/tiers/${id}`, updatedTier)
+    axios.put(`https://echange-documents-comptables-backend.vercel.app/tiers/${id}`, updatedTier)
       .then((response) => {
         Swal.fire({
           icon: "success",
@@ -186,7 +186,7 @@ const UpdateTier = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchTier = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/tiers/${id}`);
+        const response = await axios.get(`https://echange-documents-comptables-backend.vercel.app/tiers/${id}`);
         const data = response.data;
         if (!data) {
           console.error("Empty response or invalid data structure:", response);

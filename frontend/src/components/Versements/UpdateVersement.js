@@ -37,7 +37,7 @@ const UpdateVersement = ({ isSidebarOpen }) => {
   useEffect(() => {
     const fetchCodeTiers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/code_tiers");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/code_tiers");
         setCodeTiers(res.data);
       } catch (err) {
         console.error(err);
@@ -50,7 +50,7 @@ const UpdateVersement = ({ isSidebarOpen }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/versement/${id}`
+          `https://echange-documents-comptables-backend.vercel.app/versement/${id}`
         );
         const { data } = response;
 
@@ -89,7 +89,7 @@ const UpdateVersement = ({ isSidebarOpen }) => {
   const fetchBanques = async (tierId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/tiers/${tierId}/banques`
+        `https://echange-documents-comptables-backend.vercel.app/tiers/${tierId}/banques`
       );
       setBanques(response.data);
     } catch (error) {
@@ -117,7 +117,7 @@ const UpdateVersement = ({ isSidebarOpen }) => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/versement/${id}`, data);
+      await axios.put(`https://echange-documents-comptables-backend.vercel.app/versement/${id}`, data);
       Swal.fire("Succès", "Données mises à jour avec succès.", "success");
       navigate("/versements");
     } catch (error) {

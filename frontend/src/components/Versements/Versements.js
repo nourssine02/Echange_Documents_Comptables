@@ -23,7 +23,7 @@ const Versements = ({isSidebarOpen}) => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:5000/versements", {
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/versements", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const Versements = ({isSidebarOpen}) => {
 
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/clients");
+        const res = await axios.get("https://echange-documents-comptables-backend.vercel.app/clients");
         setClients(res.data);
       } catch (err) {
         console.log(err);
@@ -99,7 +99,7 @@ const Versements = ({isSidebarOpen}) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/versement/${id}`);
+      await axios.delete(`https://echange-documents-comptables-backend.vercel.app/versement/${id}`);
       window.location.reload(); 
     } catch (err) {
       console.error("Error deleting versement:", err);
