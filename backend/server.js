@@ -4851,7 +4851,7 @@ app.get('/orders-per-period/:userId', async (req, res) => {
                 DATE_FORMAT(date_commande, '%Y-%m') AS period, 
                 COUNT(*) AS count 
             FROM commandes 
-            WHERE user_id = ? -- Filtrer par utilisateur
+            WHERE ajoute_par = ? -- Filtrer par utilisateur
             GROUP BY DATE_FORMAT(date_commande, '%Y-%m') 
             ORDER BY period;
         `;
@@ -4883,7 +4883,6 @@ app.get('/orders-per-period/:userId', async (req, res) => {
         res.status(500).json({ error: "Erreur lors de la récupération des commandes par période" });
     }
 });
-
 
 
 
