@@ -62,7 +62,7 @@ function Home({ isSidebarOpen }) {
     const fetchOrdersPerPeriod = async () => {
       try {
         if (user && user.role === "utilisateur") { // Vérifie si l'utilisateur a le rôle "utilisateur"
-          const response = await axios.get("https://echange-documents-comptables-backend.vercel.app/orders-per-period");
+          const response = await axios.get(`https://echange-documents-comptables-backend.vercel.app/orders-per-period/${user.id}`);
 
           // Validation : vérifier si ordersPerPeriod est bien un tableau
           if (response.data && Array.isArray(response.data.ordersPerPeriod)) {
